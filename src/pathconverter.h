@@ -14,21 +14,41 @@ convert Frenet Coordinates (s, d) to map coordinates (x, y) or to
 convert Jerk Minimized Trajectories (JMT) to a path plan of (x, y) points on the map
 **/
 
+/**
+map file convention stored at file path:
+Each row of the file contains x y s dx dy values which are the waypoints.
+The x and y are the waypoint's map coordinate position.
+The s value is the distance along the road to get to that waypoint.
+The dx and dy values define the unit normal vector pointing outward of the highway loop.
+ **/
+
 class PathConverter{
 
   public:
     PathConverter(std::string file_path, const double distance);
-    /** Takes in a file containing map information and the distance of the map
-        Each row of the file contains x y s dx dy values which are the waypoints.
-        The x and y are the waypoint's map coordinate position.
-        The s value is the distance along the road to get to that waypoint.
-        The dx and dy values define the unit normal vector pointing outward of the highway loop.
+    /** Takes in: file_path - a file path containing map information
+                  distance - the total road distance of the map
     **/
 
     void save(std::string file_path, const double t, const int n);
+    /** Takes in: file_path - path to save waypoints
+                  t - distance between way points
+                  n - number of way points
+     **/
+
     void save(std::string file_path, const double t, const int n, const double d);
+    /** Takes in: file_path - path to save waypoints
+                  t - distance between way points
+                  n - number of waypoints
+                  d - distance of the waypoint outward the highway loop
+     **/
 
     std::vector<double> convert_sd_to_xy(const double s, const double d);
+    /**
+      Takes in (s, d) coordinates in the frenet frame (which is along the loop of the road)
+      Returns (x, y) coordinate in the fixed map cartesian frame
+     **/
+     
     // void make_path(const& JMT jmt_s, const& JMT jmt_d, const double t, const int n);
     //std::vector<double>& get_x_path()
     //std::vector<double>& get_y_path()

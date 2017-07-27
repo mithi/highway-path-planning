@@ -23,6 +23,7 @@ PathConverter::PathConverter(std::string file_path, const double distance) {
     exit(EXIT_FAILURE);
   }
 
+  // Load information from file to memory
   while (getline(in_file, line)) {
 
     istringstream iss(line);
@@ -58,6 +59,7 @@ PathConverter::PathConverter(std::string file_path, const double distance) {
   dxs.push_back(dx1);
   dys.push_back(dy1);
 
+  // Uses the loaded information to fit cubic polynomial curves
   this->x_spline.set_points(ss, xs);
   this->y_spline.set_points(ss, ys);
   this->dx_spline.set_points(ss, dxs);
