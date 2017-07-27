@@ -11,7 +11,7 @@
 /**
 PathConverter contains the map of the highway. Use it to
 convert Frenet Coordinates (s, d) to map coordinates (x, y) or to
-convert Jerk Minimized Trajectories (JMT) to a path plan of (x, y) points on the map
+convert Jerk Minimized Trajectories (JMT) to a path plan (XYPath) of (x, y) points on the map
 **/
 
 /**
@@ -31,13 +31,13 @@ class PathConverter{
     **/
 
     void save(std::string file_path, const double t, const int n);
-    /** Takes in: file_path - path to save waypoints
+    /** Takes in: file_path - path where the waypoints will be saved
                   t - distance between way points
                   n - number of way points
      **/
 
     void save(std::string file_path, const double t, const int n, const double d);
-    /** Takes in: file_path - path to save waypoints
+    /** Takes in: file_path - path where the waypoints will be saved
                   t - distance between way points
                   n - number of waypoints
                   d - distance of the waypoint outward the highway loop
@@ -46,12 +46,11 @@ class PathConverter{
     std::vector<double> convert_sd_to_xy(const double s, const double d);
     /**
       Takes in (s, d) coordinates in the frenet frame (which is along the loop of the road)
-      Returns (x, y) coordinate in the fixed map cartesian frame
+      Returns a vector (x, y) which are cartesian coordinates in the fixed map frame
      **/
-     
-    // void make_path(const& JMT jmt_s, const& JMT jmt_d, const double t, const int n);
-    //std::vector<double>& get_x_path()
-    //std::vector<double>& get_y_path()
+
+    // XYPoints make_path(const& JMT jmt_s, const& JMT jmt_d, const double t, const int n);
+
 
   private:
    double distance;
