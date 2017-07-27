@@ -48,11 +48,17 @@ int main() {
 
   // Takes in the file path of the map  and total path distance
   cout << "Loading map..." << endl;
+
+
   PathConverter pathConverter("../data/highway_map.csv", 6945.554);
+
+  // Uncomment should you wish to save each lane to a different csv file
   pathConverter.save("../data/finegrained_map.csv", 1.0, 6945);
-  pathConverter.save("../data/leftlane_map.csv", 1.0, 6945, 2);
-  pathConverter.save("../data/midlane_map.csv", 1.0, 6945, 6);
-  pathConverter.save("../data/rightlane_map.csv", 1.0, 6945, 10);
+  pathConverter.save("../data/leftlane_map.csv", 1.0, 6945, 2.0);
+  pathConverter.save("../data/midlane_map.csv", 1.0, 6945, 6.0);
+  pathConverter.save("../data/rightlane_map.csv", 1.0, 6945, 10.0);
+  pathConverter.save("../data/farrightlane_map.csv", 1.0, 6945, 50.0);
+
   cout << "Map loaded..." << endl;
 
   //********************************************************************

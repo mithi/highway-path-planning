@@ -126,7 +126,7 @@ vector<double> PathConverter::convert_sd_to_xy(const double s, const double d) {
   const double dy = this->dy_spline(s);
 
   const double x = x_edge + dx * d;
-  const double y = y_edge + dy * y;
+  const double y = y_edge + dy * d;
 
   return {x, y};
 }
