@@ -5,9 +5,12 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
 #include "json.hpp"
+
+#include "pathconverter.h"
 
 using namespace std;
 
@@ -20,8 +23,7 @@ double deg2rad(double x) { return x * pi() / 180; }
 double rad2deg(double x) { return x * 180 / pi(); }
 
 // Checks if the SocketIO event has JSON data.
-// If there is data the JSON object in string format will be returned,
-// else the empty string "" will be returned.
+// If there is data the JSON object in string format will be returned, else the empty string "" will be returned.
 string hasData(string s) {
 
   auto found_null = s.find("null");
@@ -43,20 +45,29 @@ int main() {
   uWS::Hub h;
 
   // Load up map values for waypoint's x,y,s and d normalized normal vectors
+
+  // Takes in the file path of the map  and total path distance
+  cout << "Loading map..." << endl;
+  PathConverter pathConverter("../data/highway_map.csv", 6945.554);
+  pathConverter.save("../data/finegrained_map.csv", 1.0, 6945);
+  pathConverter.save("../data/leftlane_map.csv", 1.0, 6945, 2);
+  pathConverter.save("../data/midlane_map.csv", 1.0, 6945, 6);
+  pathConverter.save("../data/rightlane_map.csv", 1.0, 6945, 10);
+  cout << "Map loaded..." << endl;
+
+  //********************************************************************
+  // START - UNUSED UDACITY CODE - RESTORED BECAUSE COMPILATION ISSUES
+  //********************************************************************
   vector<double> map_waypoints_x;
   vector<double> map_waypoints_y;
   vector<double> map_waypoints_s;
   vector<double> map_waypoints_dx;
   vector<double> map_waypoints_dy;
-
-  // Waypoint map to read from
   string map_file_ = "../data/highway_map.csv";
-  // The max s value before wrapping around the track back to 0
   double max_s = 6945.554;
-
   ifstream in_map_(map_file_.c_str(), ifstream::in);
-
   string line;
+
   while (getline(in_map_, line)) {
   	istringstream iss(line);
   	double x;
@@ -75,6 +86,9 @@ int main() {
   	map_waypoints_dx.push_back(d_x);
   	map_waypoints_dy.push_back(d_y);
   }
+  //********************************************************************
+  // END - UNUSED UDACITY CODE -  RESTORED BECAUSE COMPILATION ISSUES
+  //********************************************************************
 
   h.onMessage([&map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](
     uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
