@@ -6,8 +6,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "spline.h"
 
+#include "spline.h"
+//#include "helper.h"
 /**
 PathConverter contains the map of the highway. Use it to
 convert Frenet Coordinates (s, d) to map coordinates (x, y) or to
