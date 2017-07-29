@@ -163,22 +163,22 @@ int main() {
           NearbyVehicleInfo back = get_nearest_back(myCar, otherCars, myCar.lane);
 
           cout << "has in front:" << !front.is_empty
-               << " id: " << front.car.id << " gap: " << front.gap << endl;
+               << " ---> id: " << front.car.id << " gap: " << front.gap << endl;
 
           cout << "has in back: " << !back.is_empty
-               << " id: " << back.car.id << " gap: " << back.gap << endl;
+               << " ---> id: " << back.car.id << " gap: " << back.gap << endl;
 
           cout << "has in frontleft: " << !frontleft.is_empty
-               << " id: " << frontleft.car.id << " gap: " << frontleft.gap << endl;
+               << " ---> id: " << frontleft.car.id << " gap: " << frontleft.gap << endl;
 
           cout << "has in backleft: " << !backleft.is_empty
-               << " id: " << backleft.car.id << " gap: " << backleft.gap << endl;
+               << " ---> id: " << backleft.car.id << " gap: " << backleft.gap << endl;
 
           cout << "has in frontright: " << !frontright.is_empty
-               << " id: " << frontright.car.id << " gap: " << frontright.gap << endl;
+               << " ---> id: " << frontright.car.id << " gap: " << frontright.gap << endl;
 
           cout << "has in backright: " << !backright.is_empty
-               << " id: " << backright.car.id << " gap: " << backright.gap << endl;
+               << " ---> id: " << backright.car.id << " gap: " << backright.gap << endl;
 
 
           json msgJson;
