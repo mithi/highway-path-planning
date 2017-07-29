@@ -67,6 +67,41 @@ PathConverter::PathConverter(std::string file_path, const double distance) {
   this->distance = distance;
 }
 
+vector<double> PathConverter::convert_sd_to_xy(const double s, const double d) {
+
+  const double x_edge = this->x_spline(s);
+  const double y_edge = this->y_spline(s);
+  const double dx = this->dx_spline(s);
+  const double dy = this->dy_spline(s);
+
+  const double x = x_edge + dx * d;
+  const double y = y_edge + dy * d;
+
+  return {x, y};
+}
+
+XYPoints PathConverter::make_path(JMT& jmt_s, JMT& jmt_d, const double t, const int n){
+
+  vector<double> xs;
+  vector<double> ys;
+  vector<double> p;
+
+  for(int i = 0; i < n; i++) {
+
+    double s = jmt_s.get(i * t);
+    double d = jmt_d.get(i * t);
+
+    vector<double> p = this->convert_sd_to_xy(s, d);
+
+    xs.push_back(p[0]);
+    ys.push_back(p[1]);
+  }
+
+  XYPoints path = {xs, ys, n};
+
+  return path;
+}
+
 void PathConverter::save(std::string file_path, const double t, const int n){
 
   ofstream out_file(file_path.c_str(), ofstream::out);
@@ -116,17 +151,4 @@ void PathConverter::save(std::string file_path, const double t, const int n, con
   if (out_file.is_open()) {
     out_file.close();
   }
-}
-
-vector<double> PathConverter::convert_sd_to_xy(const double s, const double d) {
-
-  const double x_edge = this->x_spline(s);
-  const double y_edge = this->y_spline(s);
-  const double dx = this->dx_spline(s);
-  const double dy = this->dy_spline(s);
-
-  const double x = x_edge + dx * d;
-  const double y = y_edge + dy * d;
-
-  return {x, y};
 }

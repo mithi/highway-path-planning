@@ -8,7 +8,9 @@
 #include <vector>
 
 #include "spline.h"
-//#include "helper.h"
+#include "helper.h"
+#include "jmt.h"
+
 /**
 PathConverter contains the map of the highway. Use it to
 convert Frenet Coordinates (s, d) to map coordinates (x, y) or to
@@ -31,6 +33,14 @@ class PathConverter{
                   distance - the total road distance of the map
     **/
 
+    std::vector<double> convert_sd_to_xy(const double s, const double d);
+    /**
+      Takes in (s, d) coordinates in the frenet frame (which is along the loop of the road)
+      Returns a vector (x, y) which are cartesian coordinates in the fixed map frame
+     **/
+
+    XYPoints make_path(JMT& jmt_s, JMT& jmt_d, const double t, const int n);
+
     void save(std::string file_path, const double t, const int n);
     /** Takes in: file_path - path where the waypoints will be saved
                   t - distance between way points
@@ -43,14 +53,6 @@ class PathConverter{
                   n - number of waypoints
                   d - distance of the waypoint outward the highway loop
      **/
-
-    std::vector<double> convert_sd_to_xy(const double s, const double d);
-    /**
-      Takes in (s, d) coordinates in the frenet frame (which is along the loop of the road)
-      Returns a vector (x, y) which are cartesian coordinates in the fixed map frame
-     **/
-
-    // XYPoints make_path(const& JMT jmt_s, const& JMT jmt_d, const double t, const int n);
 
 
   private:
