@@ -13,6 +13,7 @@
 #include "pathconverter.h"
 #include "vehicle.h"
 #include "nearby.h"
+#include "jmt.h"
 
 using namespace std;
 
@@ -48,14 +49,7 @@ int main() {
 
   cout << "Loading map..." << endl;
   PathConverter pathConverter("../data/highway_map.csv", 6945.554);
-  // Uncomment should you wish to save each lane to a different csv file
-  //pathConverter.save("../data/finegrained_map.csv", 1.0, 6945);
-  //pathConverter.save("../data/leftlane_map.csv", 1.0, 6945, 2.0);
-  //pathConverter.save("../data/midlane_map.csv", 1.0, 6945, 6.0);
-  //pathConverter.save("../data/rightlane_map.csv", 1.0, 6945, 10.0);
-  //pathConverter.save("../data/farrightlane_map.csv", 1.0, 6945, 50.0);
   cout << "Map loaded..." << endl;
-
 
   h.onMessage([&pathConverter](
     uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -124,63 +118,6 @@ int main() {
              car.update_speed(v, heading);
              otherCars.push_back(car);
           }
-
-          /*
-          //*********************************
-          //* DEBUG CAR OBJECTS
-          //*********************************
-          cout << "my car: " << myCar.id << endl;
-          cout << "--position: " << myCar.s << " , " << myCar.d << endl;
-          cout << "--speed: " << myCar.v << " , " << myCar.heading << endl;
-          cout << "--lane:";
-
-          if (myCar.lane == LaneType::LEFT) {
-            cout << "left" << endl;
-          }
-          if (myCar.lane == LaneType::MID) {
-            cout << "mid" << endl;
-          }
-          if (myCar.lane == LaneType::RIGHT) {
-            cout << "right" << endl;
-          }
-
-          for(auto &car: otherCars) {
-
-            cout << "car id: " << car.id << endl;
-            cout << "--position: " << car.s << " , " << car.d << endl;
-            cout << "--speed: " << car.v << " , " << car.heading << endl;
-          }
-
-          //*********************************
-          //* DEBUG NEARBY FUNCTIONS
-          //*********************************
-
-          NearbyVehicleInfo frontleft = get_nearest_front(myCar, otherCars, myCar.lane_at_left);
-          NearbyVehicleInfo frontright = get_nearest_front(myCar, otherCars, myCar.lane_at_right);
-          NearbyVehicleInfo front = get_nearest_front(myCar, otherCars, myCar.lane);
-
-          NearbyVehicleInfo backleft = get_nearest_back(myCar, otherCars, myCar.lane_at_left);
-          NearbyVehicleInfo backright = get_nearest_back(myCar, otherCars, myCar.lane_at_right);
-          NearbyVehicleInfo back = get_nearest_back(myCar, otherCars, myCar.lane);
-
-          cout << "has in front:" << !front.is_empty
-               << " ---> id: " << front.car.id << " gap: " << front.gap << endl;
-
-          cout << "has in back: " << !back.is_empty
-               << " ---> id: " << back.car.id << " gap: " << back.gap << endl;
-
-          cout << "has in frontleft: " << !frontleft.is_empty
-               << " ---> id: " << frontleft.car.id << " gap: " << frontleft.gap << endl;
-
-          cout << "has in backleft: " << !backleft.is_empty
-               << " ---> id: " << backleft.car.id << " gap: " << backleft.gap << endl;
-
-          cout << "has in frontright: " << !frontright.is_empty
-               << " ---> id: " << frontright.car.id << " gap: " << frontright.gap << endl;
-
-          cout << "has in backright: " << !backright.is_empty
-               << " ---> id: " << backright.car.id << " gap: " << backright.gap << endl;
-          */
 
           json msgJson;
 

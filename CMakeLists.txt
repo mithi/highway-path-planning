@@ -12,7 +12,8 @@ include_directories(headers)
 
 set(sources src/main.cpp
             src/vehicle.cpp
-            src/pathconverter.cpp)
+            src/pathconverter.cpp
+            src/jmt.cpp)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
