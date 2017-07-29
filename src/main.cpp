@@ -10,7 +10,6 @@
 #include "Eigen-3.3/Eigen/QR"
 #include "json.hpp"
 
-#include "helper.h"
 #include "pathconverter.h"
 #include "vehicle.h"
 
@@ -55,6 +54,10 @@ int main() {
   //pathConverter.save("../data/rightlane_map.csv", 1.0, 6945, 10.0);
   //pathConverter.save("../data/farrightlane_map.csv", 1.0, 6945, 50.0);
   cout << "Map loaded..." << endl;
+
+  Vehicle myCar(66666);
+  myCar.update_position(1000.0, 2.0);
+  myCar.update_speed(22.0, 0.0);
 
   //********************************************************************
   // START - UNUSED UDACITY CODE - RESTORED BECAUSE COMPILATION ISSUES
@@ -129,30 +132,8 @@ int main() {
           // Sensor Fusion Data, a list of all other cars on the same side of the road.
           auto sensor_fusion = j[1]["sensor_fusion"];
 
-/*
-          Vehicle myCar(666666);
-          myCar.update_position(car_s, car_d);
-          myCar.update_speed(car_speed, car_yaw);
-          myCar.specify_adjacent_lanes();
 
-          vector<Vehicle> otherCars = {};
 
-          for (int i = 0; i < sensor_fusion.size(); i++) {
-
-            int id = sensor_fusion[i][0];
-            double s = sensor_fusion[i][5];
-            double d = sensor_fusion[i][6];
-            double vx = sensor_fusion[i][3];
-            double vy = sensor_fusion[i][4];
-            double v = sqrt(vx * vx + vy * vy);
-            double heading = atan2(vy, vx);
-
-            Vehicle car(id);
-            car.update_position(s, d);
-            car.update_speed(v, heading);
-            otherCars.push_back(car);
-          }
-*/
           json msgJson;
 
           vector<double> next_x_vals;

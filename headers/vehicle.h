@@ -9,7 +9,6 @@ class Vehicle {
   public:
 
     int id;
-
     double s;
     double d;
     double v;
@@ -21,12 +20,16 @@ class Vehicle {
     LaneType lane_at_right;
     LaneType lane_at_left;
 
-    Vehicle(const int id);
+    Vehicle(const int i);
 
     void update_position(const double s, const double d);
     void update_speed(const double v, const double heading);
     void update_state(const State& state);
     void specify_adjacent_lanes();
+
+  private:
+    LaneType convert_d_to_lane(const double d);
+    double convert_lane_to_d(const LaneType l);
 };
 
 #endif //VEHICLE_H_

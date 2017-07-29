@@ -6,6 +6,7 @@
 
 //#include "jmt.h"
 
+
 const double REALLY_BIG_NUMBER = 100000.0;
 const int NEW_PATH_SIZE = 50;
 const int KEEP_PATH_SIZE = 10;
@@ -22,6 +23,7 @@ const double BUFFER_DISTANCE = 0.0;
 const double BUFFER_SPEED = 0.0;
 const double BUFFER_ACCEL = 0.0;
 const double DELTA_ACCEL = 0.0;
+
 
 enum class LaneType {
   LEFT, MID, RIGHT, NONE, UNSPECIFIED
@@ -67,37 +69,5 @@ struct JMTPair {
   JMT d_jmt;
 };
 */
-
-
-LaneType convert_d_to_lane(const double d){
-
-  LaneType lane = LaneType::NONE;
-
-  if (d > 0.0 && d < 4.0) {
-    lane = LaneType::LEFT;
-  } else if (d > 4.0 && d < 8.0) {
-    lane = LaneType::MID;
-  } else if (d > 8.0 && d < 12.0) {
-    lane = LaneType::RIGHT;
-  }
-
-  return lane;
-};
-
-
-double convert_lane_to_d(const LaneType l){
-
-  double d = -1;
-
-  if (l == LaneType::LEFT) {
-    d = 2.0;
-  } else if (l == LaneType::MID) {
-    d = 4.0;
-  } else if (l == LaneType::MID) {
-    d = 6.0;
-  }
-
-  return d;
-}
 
 #endif // HELPERS_H_
