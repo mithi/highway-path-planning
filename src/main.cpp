@@ -125,6 +125,7 @@ int main() {
              otherCars.push_back(car);
           }
 
+          /*
           //*********************************
           //* DEBUG CAR OBJECTS
           //*********************************
@@ -179,7 +180,7 @@ int main() {
 
           cout << "has in backright: " << !backright.is_empty
                << " ---> id: " << backright.car.id << " gap: " << backright.gap << endl;
-
+          */
 
           json msgJson;
 
