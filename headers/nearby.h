@@ -11,6 +11,10 @@ struct NearbyVehicleInfo {
   bool is_empty;
 };
 
+/*
+  NOTE: These two functions below could clearly use some refactoring and/or
+        performance optimization IMHO
+ */
 NearbyVehicleInfo get_nearest_front(
   const Vehicle &myCar, const std::vector<Vehicle>& otherCars, const LaneType lane_type){
 
@@ -27,9 +31,7 @@ NearbyVehicleInfo get_nearest_front(
 
     if (otherCar.lane == lane_type && gap > 0.0 && gap < smallest_gap) {
 
-      info.car = otherCar;
-      info.gap = gap;
-      info.is_empty = false;
+      info = { otherCar, gap, false };
       smallest_gap = gap;
     }
   }
@@ -53,9 +55,7 @@ NearbyVehicleInfo get_nearest_back(
 
     if (otherCar.lane == lane_type && gap > 0.0 && gap < smallest_gap) {
 
-      info.car = otherCar;
-      info.gap = gap;
-      info.is_empty = false;
+      info = { otherCar, gap, false };
       smallest_gap = gap;
     }
   }
