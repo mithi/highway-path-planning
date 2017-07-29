@@ -43,9 +43,7 @@ double JMT::get(const double t) {
   const double t5 = t * t4;
 
   Eigen::VectorXd T = VectorXd(6);
-
   T << 0, t, t2, t3, t4, t5;
-  std::cout << T.transpose() * this->c << std::endl;
-
-  return T.transpose() * this->c ;
+  
+  return T.transpose() * this->c;
 }
