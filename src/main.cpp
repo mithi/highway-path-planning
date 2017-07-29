@@ -12,6 +12,7 @@
 
 #include "pathconverter.h"
 #include "vehicle.h"
+//#include "nearby.h"
 
 using namespace std;
 
@@ -55,46 +56,8 @@ int main() {
   //pathConverter.save("../data/farrightlane_map.csv", 1.0, 6945, 50.0);
   cout << "Map loaded..." << endl;
 
-  Vehicle myCar(66666);
-  myCar.update_position(1000.0, 2.0);
-  myCar.update_speed(22.0, 0.0);
 
-  //********************************************************************
-  // START - UNUSED UDACITY CODE - RESTORED BECAUSE COMPILATION ISSUES
-  //********************************************************************
-  vector<double> map_waypoints_x;
-  vector<double> map_waypoints_y;
-  vector<double> map_waypoints_s;
-  vector<double> map_waypoints_dx;
-  vector<double> map_waypoints_dy;
-  string map_file_ = "../data/highway_map.csv";
-  double max_s = 6945.554;
-  ifstream in_map_(map_file_.c_str(), ifstream::in);
-  string line;
-
-  while (getline(in_map_, line)) {
-  	istringstream iss(line);
-  	double x;
-  	double y;
-  	float s;
-  	float d_x;
-  	float d_y;
-  	iss >> x;
-  	iss >> y;
-  	iss >> s;
-  	iss >> d_x;
-  	iss >> d_y;
-  	map_waypoints_x.push_back(x);
-  	map_waypoints_y.push_back(y);
-  	map_waypoints_s.push_back(s);
-  	map_waypoints_dx.push_back(d_x);
-  	map_waypoints_dy.push_back(d_y);
-  }
-  //********************************************************************
-  // END - UNUSED UDACITY CODE -  RESTORED BECAUSE COMPILATION ISSUES
-  //********************************************************************
-
-  h.onMessage([&map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy, &pathConverter](
+  h.onMessage([&pathConverter](
     uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
 
     // "42" at the start of the message means there's a websocket message event.
@@ -114,6 +77,10 @@ int main() {
         string event = j[0].get<string>();
 
         if (event == "telemetry") {
+          //*********************************
+          //* Get data from simulator
+          //*********************************
+
           // j[1] is the data JSON object
 
         	// Main car's localization Data
@@ -123,7 +90,6 @@ int main() {
           double car_speed = j[1]["speed"];
 
           // Previous path data given to the Planner
-          // Previous path's end s and d values
           auto previous_path_x = j[1]["previous_path_x"];
           auto previous_path_y = j[1]["previous_path_y"];
           double end_path_s = j[1]["end_path_s"];
@@ -132,7 +98,72 @@ int main() {
           // Sensor Fusion Data, a list of all other cars on the same side of the road.
           auto sensor_fusion = j[1]["sensor_fusion"];
 
+          //*********************************
+          //* Update car objects
+          //*********************************
 
+          Vehicle myCar(66666);
+          myCar.update_position(car_s, car_d);
+          myCar.update_speed(car_speed, car_yaw);
+          myCar.specify_adjacent_lanes();
+
+          vector<Vehicle> otherCars;
+
+          for (int i = 0; i < sensor_fusion.size(); i++) {
+
+            int id = sensor_fusion[i][0];
+            double s = sensor_fusion[i][5];
+            double d = sensor_fusion[i][6];
+            double vx = sensor_fusion[i][3];
+            double vy = sensor_fusion[i][4];
+            double v = sqrt(vx * vx + vy * vy);
+            double heading = atan2(vy, vx);
+
+             Vehicle car(id);
+             car.update_position(s, d);
+             car.update_speed(v, heading);
+             otherCars.push_back(car);
+          }
+
+          //*********************************
+          //* DEBUG CAR OBJECTS
+          //*********************************
+          cout << "my car: " << myCar.id << endl;
+          cout << "--position: " << myCar.s << " , " << myCar.d << endl;
+          cout << "--speed: " << myCar.v << " , " << myCar.heading << endl;
+
+          for(auto &car: otherCars) {
+
+            cout << "car id: " << car.id << endl;
+            cout << "--position: " << car.s << " , " << car.d << endl;
+            cout << "--speed: " << car.v << " , " << car.heading << endl;
+          }
+
+          //*********************************
+          //* DEBUG NEARBY FUNCTIONS
+          //*********************************
+          /*
+          NearbyVehicleInfo frontleft = get_nearest_front(myCar, otherCars, myCar.lane_at_left);
+          NearbyVehicleInfo frontright = get_nearest_front(myCar, otherCars, myCar.lane_at_right);
+          NearbyVehicleInfo front = get_nearest_front(myCar, otherCars, myCar.lane);
+
+          NearbyVehicleInfo backleft = get_nearest_back(myCar, otherCars, myCar.lane_at_left);
+          NearbyVehicleInfo backright = get_nearest_back(myCar, otherCars, myCar.lane_at_right);
+          NearbyVehicleInfo back = get_nearest_back(myCar, otherCars, myCar.lane);
+
+          cout << "front id: " << front.car.id << "gap:" << front.gap << endl;
+          cout << "back id: " << back.car.id << "gap:" << back.gap << endl;
+
+          if (!frontleft.is_empty) {
+            cout << "frontleft id: " << frontleft.car.id << "gap:" << frontleft.gap << endl;
+            cout << "backleft id: " << backleft.car.id << "gap:" << backleft.gap << endl;
+          }
+
+          if (!frontright.is_empty) {
+            cout << "frontright id: " << frontright.car.id << "gap:" << frontright.gap << endl;
+            cout << "backright id: " << backright.car.id << "gap:" << backright.gap << endl;
+          }
+          */
 
           json msgJson;
 
