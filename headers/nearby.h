@@ -6,7 +6,7 @@
    at a given given lane
   NOTE: where: FROM_FRONT = 1.0, FROM_BACK = -1
  */
-double get_nearest_gap(
+double get_gap(
   const Vehicle &myCar, const std::vector<Vehicle>& otherCars, const LaneType lane_type, double where){
 
   double smallest_gap = REALLY_BIG_NUMBER;
