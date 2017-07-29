@@ -12,7 +12,7 @@
 
 #include "pathconverter.h"
 #include "vehicle.h"
-//#include "nearby.h"
+#include "nearby.h"
 
 using namespace std;
 
@@ -131,6 +131,17 @@ int main() {
           cout << "my car: " << myCar.id << endl;
           cout << "--position: " << myCar.s << " , " << myCar.d << endl;
           cout << "--speed: " << myCar.v << " , " << myCar.heading << endl;
+          cout << "--lane:";
+
+          if (myCar.lane == LaneType::LEFT) {
+            cout << "left" << endl;
+          }
+          if (myCar.lane == LaneType::MID) {
+            cout << "mid" << endl;
+          }
+          if (myCar.lane == LaneType::RIGHT) {
+            cout << "right" << endl;
+          }
 
           for(auto &car: otherCars) {
 
@@ -142,7 +153,7 @@ int main() {
           //*********************************
           //* DEBUG NEARBY FUNCTIONS
           //*********************************
-          /*
+
           NearbyVehicleInfo frontleft = get_nearest_front(myCar, otherCars, myCar.lane_at_left);
           NearbyVehicleInfo frontright = get_nearest_front(myCar, otherCars, myCar.lane_at_right);
           NearbyVehicleInfo front = get_nearest_front(myCar, otherCars, myCar.lane);
@@ -151,19 +162,24 @@ int main() {
           NearbyVehicleInfo backright = get_nearest_back(myCar, otherCars, myCar.lane_at_right);
           NearbyVehicleInfo back = get_nearest_back(myCar, otherCars, myCar.lane);
 
-          cout << "front id: " << front.car.id << "gap:" << front.gap << endl;
-          cout << "back id: " << back.car.id << "gap:" << back.gap << endl;
+          cout << "has in front:" << !front.is_empty
+               << " id: " << front.car.id << " gap: " << front.gap << endl;
 
-          if (!frontleft.is_empty) {
-            cout << "frontleft id: " << frontleft.car.id << "gap:" << frontleft.gap << endl;
-            cout << "backleft id: " << backleft.car.id << "gap:" << backleft.gap << endl;
-          }
+          cout << "has in back: " << !back.is_empty
+               << " id: " << back.car.id << " gap: " << back.gap << endl;
 
-          if (!frontright.is_empty) {
-            cout << "frontright id: " << frontright.car.id << "gap:" << frontright.gap << endl;
-            cout << "backright id: " << backright.car.id << "gap:" << backright.gap << endl;
-          }
-          */
+          cout << "has in frontleft: " << !frontleft.is_empty
+               << " id: " << frontleft.car.id << " gap: " << frontleft.gap << endl;
+
+          cout << "has in backleft: " << !backleft.is_empty
+               << " id: " << backleft.car.id << " gap: " << backleft.gap << endl;
+
+          cout << "has in frontright: " << !frontright.is_empty
+               << " id: " << frontright.car.id << " gap: " << frontright.gap << endl;
+
+          cout << "has in backright: " << !backright.is_empty
+               << " id: " << backright.car.id << " gap: " << backright.gap << endl;
+
 
           json msgJson;
 

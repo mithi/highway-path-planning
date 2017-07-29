@@ -8,15 +8,20 @@
 struct NearbyVehicleInfo {
   Vehicle car;
   double gap;
+  bool is_empty;
 };
 
 NearbyVehicleInfo get_nearest_front(
-  const Vehicle &myCar, const std::vector<Vehicle>& cars, const LaneType lane_type){
+  const Vehicle &myCar, const std::vector<Vehicle>& otherCars, const LaneType lane_type){
 
   double smallest_gap = REALLY_BIG_NUMBER;
-  NearbyVehicleInfo info;
+  NearbyVehicleInfo info = {myCar, REALLY_BIG_NUMBER, true};
 
-  for(auto &otherCar: cars){
+  if (lane_type == LaneType::NONE) {
+    return info;
+  }
+
+  for(auto &otherCar: otherCars){
 
     double gap = otherCar.s - myCar.s;
 
@@ -24,6 +29,7 @@ NearbyVehicleInfo get_nearest_front(
 
       info.car = otherCar;
       info.gap = gap;
+      info.is_empty = false;
       smallest_gap = gap;
     }
   }
@@ -32,12 +38,16 @@ NearbyVehicleInfo get_nearest_front(
 }
 
 NearbyVehicleInfo get_nearest_back(
-  const Vehicle &myCar, const std::vector<Vehicle>& cars, const LaneType lane_type){
+  const Vehicle &myCar, const std::vector<Vehicle>& otherCars, const LaneType lane_type){
 
   double smallest_gap = REALLY_BIG_NUMBER;
-  NearbyVehicleInfo info;
+  NearbyVehicleInfo info = {myCar, REALLY_BIG_NUMBER, true};
 
-  for(auto &otherCar: cars){
+  if (lane_type == LaneType::NONE) {
+    return info;
+  }
+
+  for(auto &otherCar: otherCars){
 
     double gap = myCar.s - otherCar.s;
 
@@ -45,6 +55,7 @@ NearbyVehicleInfo get_nearest_back(
 
       info.car = otherCar;
       info.gap = gap;
+      info.is_empty = false;
       smallest_gap = gap;
     }
   }
