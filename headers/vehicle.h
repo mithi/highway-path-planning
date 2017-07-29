@@ -26,8 +26,6 @@ class Vehicle {
     void update_speed(const double v, const double heading);
     void update_state(const State& state);
     void specify_adjacent_lanes();
-
-  private:
     LaneType convert_d_to_lane(const double d);
     double convert_lane_to_d(const LaneType l);
 };
