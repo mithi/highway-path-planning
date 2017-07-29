@@ -78,20 +78,24 @@ int main() {
           // j[1] is the data JSON object
 
         	// Main car's localization Data
+          double car_x = j[1]["x"];
+          double car_y = j[1]["y"];
           double car_s = j[1]["s"];
           double car_d = j[1]["d"];
           double car_yaw = j[1]["yaw"];
           double car_speed = j[1]["speed"];
 
           // Previous path data given to the Planner
-          auto previous_path_x = j[1]["previous_path_x"];
-          auto previous_path_y = j[1]["previous_path_y"];
+          vector<double> previous_path_x = j[1]["previous_path_x"];
+          vector<double> previous_path_y = j[1]["previous_path_y"];
           double end_path_s = j[1]["end_path_s"];
           double end_path_d = j[1]["end_path_d"];
 
           // Sensor Fusion Data, a list of all other cars on the same side of the road.
           auto sensor_fusion = j[1]["sensor_fusion"];
 
+          int n = previous_path_x.size();
+          XYPoints XY_points = {previous_path_x, previous_path_y, n};
           //*********************************
           //* Update car objects
           //*********************************
@@ -119,15 +123,40 @@ int main() {
              otherCars.push_back(car);
           }
 
+          if (previous_path_x.size() == 0) {
+
+             cout << "Our car hasn't moved yet. Let's move it! :" << endl;
+
+            State startState_s = {car_s, car_speed, 0.0};
+            State startState_d = {car_d, 0.0, 0.0};
+
+            double TIME_INCREMENT = 0.02;
+            int NUMBER_OF_POINTS = 250;
+            double TRAVERSE_TIME = 5.0;
+
+            double GOAL_SPEED = 20.0;
+            double GOAL_s = car_s + 140.0;
+            double GOAL_d = myCar.convert_lane_to_d(myCar.lane);
+
+            State endState_s = {GOAL_s, GOAL_SPEED, 0.0};
+            State endState_d = {GOAL_d, 0.0, 0.0};
+
+            JMT jmt_s(startState_s, endState_s, TRAVERSE_TIME);
+            JMT jmt_d(startState_d, endState_d, TRAVERSE_TIME);
+            XY_points = pathConverter.make_path(jmt_s, jmt_d, TIME_INCREMENT, NUMBER_OF_POINTS);
+
+            /*
+            for(int i = 0; i < NUMBER_OF_POINTS; i++) {
+              cout << XY_points.xs[i] << " " << XY_points.ys[i] << endl;
+            }
+            */
+          }
+
           json msgJson;
 
-          vector<double> next_x_vals;
-          vector<double> next_y_vals;
-
-
           // TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
-          msgJson["next_x"] = next_x_vals;
-          msgJson["next_y"] = next_y_vals;
+          msgJson["next_x"] = XY_points.xs;
+          msgJson["next_y"] = XY_points.ys;
 
           auto msg = "42[\"control\","+ msgJson.dump()+"]";
 
