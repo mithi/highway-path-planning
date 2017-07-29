@@ -11,6 +11,7 @@ set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 include_directories(headers)
 
 set(sources src/main.cpp
+            src/vehicle.cpp
             src/pathconverter.cpp)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
