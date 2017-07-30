@@ -4,10 +4,7 @@
 #include <assert.h>
 #include <vector>
 
-//#include "jmt.h"
-
-
-const double REALLY_BIG_NUMBER = 100000.0;
+const double REALLY_BIG_NUMBER = 1000000.0;
 
 const double SPEEDLIMIT = 22.352; // 50mph in m/s
 const double ACCELLIMIT = 10.0; // m/s^2
@@ -42,20 +39,11 @@ struct XYPoints {
 
 /* StatePair stores two State objects
  *
- */
+
 struct StatePair {
   State s_state;
   State d__state;
 };
-
-/* JMTPair stores two JMT objects
- *
  */
- /*
-struct JMTPair {
-  JMT s_jmt;
-  JMT d_jmt;
-};
-*/
 
 #endif // HELPERS_H_
