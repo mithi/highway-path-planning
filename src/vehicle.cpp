@@ -22,11 +22,10 @@ void Vehicle::update_speed(const double v, const double heading){
 }
 
 
-void Vehicle::update_state(const struct State& state){
+void Vehicle::update_save_states(const State& state_s, const State& state_d){
 
-  this->predicted_state = state;
-  this->v = state.v;
-  this->s = state.p;
+  this->saved_state_s = state_s;
+  this->saved_state_d = state_d;
 }
 
 void Vehicle::specify_adjacent_lanes(){
@@ -70,6 +69,10 @@ LaneType Vehicle::convert_d_to_lane(const double d){
   return lane;
 }
 
+LaneType Vehicle::convert_d_to_lane(){
+  return this->convert_d_to_lane(this->d);
+}
+
 double Vehicle::convert_lane_to_d(const LaneType l){
 
   double d = -1;
@@ -83,4 +86,8 @@ double Vehicle::convert_lane_to_d(const LaneType l){
   }
 
   return d;
+}
+
+double Vehicle::convert_lane_to_d(){
+  return this->convert_lane_to_d(this->lane);
 }
