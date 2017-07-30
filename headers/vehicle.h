@@ -1,6 +1,7 @@
 #ifndef VEHICLE_H_
 #define VEHICLE_H_
 
+#include <iostream>
 #include <vector>
 #include "helper.h"
 
@@ -14,7 +15,8 @@ class Vehicle {
     double v;
     double front_gap;
     double front_v;
-
+    double front_s;
+    
     State saved_state_s;
     State saved_state_d;
 
