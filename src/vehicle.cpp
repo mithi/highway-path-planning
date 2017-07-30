@@ -88,5 +88,6 @@ double Vehicle::convert_lane_to_d(const LaneType l){
 }
 
 double Vehicle::convert_lane_to_d(){
+
   return this->convert_lane_to_d(this->lane);
 }
