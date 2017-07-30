@@ -15,10 +15,9 @@ void Vehicle::update_position(const double s, const double d){
 }
 
 
-void Vehicle::update_speed(const double v, const double heading){
+void Vehicle::update_speed(const double v){
 
   this->v = v;
-  this->heading = heading;
 }
 
 

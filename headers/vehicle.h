@@ -12,7 +12,6 @@ class Vehicle {
     double s;
     double d;
     double v;
-    double heading;
 
     State saved_state_s;
     State saved_state_d;
@@ -24,7 +23,7 @@ class Vehicle {
     Vehicle(const int i);
 
     void update_position(const double s, const double d);
-    void update_speed(const double v, const double heading);
+    void update_speed(const double v);
     void update_save_states(const State& state_s, const State& state_d);
     void specify_adjacent_lanes();
     LaneType convert_d_to_lane(const double d);

@@ -79,11 +79,8 @@ int main() {
           // j[1] is the data JSON object
 
         	// Main car's localization Data
-          double car_x = j[1]["x"];
-          double car_y = j[1]["y"];
           double car_s = j[1]["s"];
           double car_d = j[1]["d"];
-          double car_yaw = j[1]["yaw"];
           double car_speed = j[1]["speed"];
 
           // Previous path data given to the Planner
@@ -104,7 +101,7 @@ int main() {
 
           Vehicle myCar(66666);
           myCar.update_position(car_s, car_d);
-          myCar.update_speed(car_speed, car_yaw);
+          myCar.update_speed(car_speed);
           myCar.specify_adjacent_lanes();
 
           vector<Vehicle> otherCars;
@@ -116,12 +113,10 @@ int main() {
             double d = sensor_fusion[i][6];
             double vx = sensor_fusion[i][3];
             double vy = sensor_fusion[i][4];
-            double v = sqrt(vx * vx + vy * vy);
-            double heading = atan2(vy, vx);
 
              Vehicle car(id);
              car.update_position(s, d);
-             car.update_speed(v, heading);
+             car.update_speed(sqrt(vx * vx + vy * vy));
              otherCars.push_back(car);
           }
 
