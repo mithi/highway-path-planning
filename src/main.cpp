@@ -50,8 +50,9 @@ int main() {
   cout << "Loading map..." << endl;
   PathConverter pathConverter("../data/highway_map.csv", 6945.554);
   cout << "Map loaded..." << endl;
+  bool has_started = false;
+  h.onMessage([&pathConverter, &has_started](
 
-  h.onMessage([&pathConverter](
     uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
 
     // "42" at the start of the message means there's a websocket message event.
@@ -96,6 +97,7 @@ int main() {
 
           int n = previous_path_x.size();
           XYPoints XY_points = {previous_path_x, previous_path_y, n};
+
           //*********************************
           //* Update car objects
           //*********************************
@@ -123,7 +125,9 @@ int main() {
              otherCars.push_back(car);
           }
 
-          if (previous_path_x.size() == 0) {
+          if (!has_started) {
+
+            has_started = true;
 
              cout << "Our car hasn't moved yet. Let's move it! :" << endl;
 
@@ -131,25 +135,23 @@ int main() {
             State startState_d = {car_d, 0.0, 0.0};
 
             double TIME_INCREMENT = 0.02;
-            int NUMBER_OF_POINTS = 250;
-            double TRAVERSE_TIME = 5.0;
+            int NUMBER_OF_POINTS = 1000;
+            double TRAVERSE_TIME = 20.0;
 
             double GOAL_SPEED = 20.0;
-            double GOAL_s = car_s + 140.0;
-            double GOAL_d = myCar.convert_lane_to_d(myCar.lane);
+            double GOAL_s = car_s + 200.0;
 
             State endState_s = {GOAL_s, GOAL_SPEED, 0.0};
-            State endState_d = {GOAL_d, 0.0, 0.0};
+            State endState_d = {6.0, 0.0, 0.0};
 
             JMT jmt_s(startState_s, endState_s, TRAVERSE_TIME);
             JMT jmt_d(startState_d, endState_d, TRAVERSE_TIME);
+
+            cout << "coefficients of jmt_d:" << jmt_d.c << endl;
             XY_points = pathConverter.make_path(jmt_s, jmt_d, TIME_INCREMENT, NUMBER_OF_POINTS);
 
-            /*
-            for(int i = 0; i < NUMBER_OF_POINTS; i++) {
-              cout << XY_points.xs[i] << " " << XY_points.ys[i] << endl;
-            }
-            */
+          } else {
+            cout << "finishing path :)" << endl;
           }
 
           json msgJson;
