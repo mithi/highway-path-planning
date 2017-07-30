@@ -80,7 +80,7 @@ vector<double> PathConverter::convert_sd_to_xy(const double s, const double d) c
   return {x, y};
 }
 
-XYPoints PathConverter::make_path(JMT& jmt_s, JMT& jmt_d, const double t, const int n) const {
+XYPoints PathConverter::make_path(JMT jmt_s, JMT jmt_d, const double t, const int n) const {
 
   vector<double> xs;
   vector<double> ys;

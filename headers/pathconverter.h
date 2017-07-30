@@ -39,7 +39,7 @@ class PathConverter{
       Returns a vector (x, y) which are cartesian coordinates in the fixed map frame
      **/
 
-    XYPoints make_path(JMT& jmt_s, JMT& jmt_d, const double t, const int n) const;
+    XYPoints make_path(JMT jmt_s, JMT jmt_d, const double t, const int n) const;
 
     void save(std::string file_path, const double t, const int n) const;
     /** Takes in: file_path - path where the waypoints will be saved
