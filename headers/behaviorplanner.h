@@ -18,6 +18,8 @@ class BehaviorPlanner{
                    const double where);
   private:
     double current_front_v;
+    double current_front_s;
+    
     double get_cost(const double front_gap, const double back_gap, const LaneType lane) const;
     double get_cost(const double gap) const;
 };

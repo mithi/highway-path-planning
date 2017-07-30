@@ -8,45 +8,56 @@ BehaviorType BehaviorPlanner::update(Vehicle& myCar, std::vector<Vehicle>& other
 
   myCar.front_gap = this->get_gap(myCar, otherCars, myCar.lane, FROM_FRONT);
   myCar.front_v = this->current_front_v;
+  myCar.front_s = this->current_front_s;
 
+  cout << "LOOKING LEFT..." << endl;
   const double frontleft = this->get_gap(myCar, otherCars, myCar.lane_at_left, FROM_FRONT);
   const double backleft = get_gap(myCar, otherCars, myCar.lane_at_left, FROM_BACK);
 
+  cout << "--> front gap left vs straight: \n"
+       << "--> " << frontleft << " vs " << myCar.front_gap << endl;
+  cout << "--> back gap left: " << backleft << endl;
+
+  cout << "LOOKING RIGHT..." << endl;
   const double frontright = this->get_gap(myCar, otherCars, myCar.lane_at_right, FROM_FRONT);
   const double backright = this->get_gap(myCar, otherCars, myCar.lane_at_right, FROM_BACK);
+
+  cout << "--> front gap right vs straight: \n"
+       << "--> " << frontright << " vs " << myCar.front_gap << endl;
+  cout << "--> back gap right: " << backright << endl;
 
   const double left_cost = this->get_cost(frontleft, frontright, myCar.lane_at_left);
   const double right_cost = this->get_cost(frontright, backright, myCar.lane_at_right);
 
   const double straight_cost = this->get_cost(myCar.front_gap);
 
-  cout << " straight cost: " << straight_cost
-       << " left cost: " << left_cost
-       << " right cost: " << right_cost << endl;
-
   if (left_cost < straight_cost && left_cost < right_cost){
+    cout << "TURN LEFT: " << left_cost << " < " << straight_cost << endl;
     return BehaviorType::TURNLEFT;
   }
 
   if (right_cost < straight_cost && right_cost < left_cost) {
-      return BehaviorType::TURNRIGHT;
+    cout << "TURN RIGHT: " << right_cost << " < " << straight_cost << endl;
+    return BehaviorType::TURNRIGHT;
   }
 
+  cout << "KEEP LANE. straight cost vs leftcost vs rightcost:" << endl;
+  cout << "--> " << straight_cost << " - " << left_cost << " - " << right_cost << endl;
   return BehaviorType::KEEPLANE;
 }
 
 double BehaviorPlanner::get_cost(const double front_gap, const double back_gap, const LaneType lane) const {
 
   if (lane == LaneType::NONE || lane == LaneType::UNSPECIFIED) {
-    cout << "No lane here, so can't turn" << endl;
     return REALLY_BIG_NUMBER;
   }
 
   const double effective_front_gap = front_gap - CHANGE_LANE_PENALTY;
   const double effective_back_gap = back_gap - CHANGE_LANE_PENALTY;
 
-  if (effective_front_gap < FRONT_GAP_THRESH && effective_back_gap < BACK_GAP_THRESH) {
-    cout << "We can't turn because there is no space to turn." << endl;
+  if (effective_front_gap < FRONT_GAP_THRESH || effective_back_gap < BACK_GAP_THRESH) {
+    cout << "--> We can't turn because there is no space to turn." << endl;
+    cout << "--> front gap: " << front_gap << " back gap: " << back_gap << endl;
     return REALLY_BIG_NUMBER;
   }
 
@@ -57,7 +68,7 @@ double BehaviorPlanner::get_cost(const double front_gap, const double back_gap, 
 double BehaviorPlanner::get_cost(const double gap) const {
 
   if (gap < FRONT_GAP_THRESH) {
-    cout << "We are too near the front vehicle we must turn!" << endl;
+    cout << "--> We are too near the front vehicle we must turn! gap =" << gap << endl;
     return REALLY_BIG_NUMBER;
   }
 
@@ -66,6 +77,11 @@ double BehaviorPlanner::get_cost(const double gap) const {
 
 double BehaviorPlanner::get_gap(
   const Vehicle &myCar, const std::vector<Vehicle>& otherCars, const LaneType lane_type, const double where) {
+
+  if (lane_type == LaneType::NONE || lane_type == LaneType::UNSPECIFIED) {
+    cout << "--> No lane here, so can't turn." << endl;
+    return -1.0;
+  }
 
   double smallest_gap = REALLY_BIG_NUMBER;
 
@@ -76,6 +92,7 @@ double BehaviorPlanner::get_gap(
     if (otherCar.lane == lane_type && gap > 0.0 && gap < smallest_gap) {
       smallest_gap = gap;
       this->current_front_v = otherCar.v;
+      this->current_front_s = otherCar.s;
     }
   }
 
