@@ -4,7 +4,7 @@
 #include <vector>
 
 const double FROM_FRONT = 1.0;
-const double FROM_BACK = 1.0;
+const double FROM_BACK = -1.0;
 
 const double REALLY_BIG_NUMBER = 1000000.0;
 
@@ -17,8 +17,8 @@ const double TIME_INCREMENT = 0.02;
 const double TRAVERSE_TIME = 2.5;
 const int NUMBER_OF_POINTS = int(TRAVERSE_TIME / TIME_INCREMENT);
 
-const double FRONT_GAP_THRESH = 0.0; // 0, 5, 10, 15, 20
-const double BACK_GAP_THRESH = 0.0; // 0, 5, 10
+const double FRONT_GAP_THRESH = 30.0; // 0, 5, 10, 15, 20
+const double BACK_GAP_THRESH = 20.0; // 0, 5, 10
 const double CHANGE_LANE_PENALTY = 0.0; // 0, 5
 
 const int  PATH_SIZE_CUTOFF = 15; // 10, 15, 20
