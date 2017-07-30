@@ -2,9 +2,10 @@
 
 BehaviorPlanner::BehaviorPlanner() {}
 
-BehaviorType BehaviorPlanner::get(Vehicle& myCar, std::vector<Vehicle>& otherCars) {
+BehaviorType BehaviorPlanner::update(Vehicle& myCar, std::vector<Vehicle>& otherCars) {
 
   myCar.front_gap = this->get_gap(myCar, otherCars, myCar.lane, FROM_FRONT);
+  myCar.front_v = this->current_front_v;
 
   const double frontleft = this->get_gap(myCar, otherCars, myCar.lane_at_left, FROM_FRONT);
   const double backleft = get_gap(myCar, otherCars, myCar.lane_at_left, FROM_BACK);
@@ -16,7 +17,7 @@ BehaviorType BehaviorPlanner::get(Vehicle& myCar, std::vector<Vehicle>& otherCar
 
   const double straight_cost = this->get_cost(myCar.front_gap);
 
-  if (straight_cost < left_cost && straight_cost < right_cost){
+  if (left_cost < straight_cost && left_cost < right_cost){
     return BehaviorType::KEEPLANE;
   }
 
@@ -24,7 +25,7 @@ BehaviorType BehaviorPlanner::get(Vehicle& myCar, std::vector<Vehicle>& otherCar
       return BehaviorType::TURNRIGHT;
   }
 
-  return BehaviorType::TURNLEFT;
+  return BehaviorType::KEEPLANE;
 }
 
 double BehaviorPlanner::get_cost(const double front_gap, const double back_gap, const LaneType lane) const {
@@ -54,7 +55,7 @@ double BehaviorPlanner::get_cost(const double gap) const {
 }
 
 double BehaviorPlanner::get_gap(
-  const Vehicle &myCar, const std::vector<Vehicle>& otherCars, const LaneType lane_type, const double where) const {
+  const Vehicle &myCar, const std::vector<Vehicle>& otherCars, const LaneType lane_type, const double where) {
 
   double smallest_gap = REALLY_BIG_NUMBER;
 
@@ -64,6 +65,7 @@ double BehaviorPlanner::get_gap(
 
     if (otherCar.lane == lane_type && gap > 0.0 && gap < smallest_gap) {
       smallest_gap = gap;
+      this->current_front_v = otherCar.v;
     }
   }
 
