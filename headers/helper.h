@@ -49,13 +49,4 @@ struct XYPoints {
   int n;
 };
 
-/* StatePair stores two State objects
- *
-
-struct StatePair {
-  State s_state;
-  State d__state;
-};
- */
-
 #endif // HELPERS_H_
