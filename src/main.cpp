@@ -20,11 +20,6 @@ using namespace std;
 // For convenience
 using json = nlohmann::json;
 
-// For converting back and forth between radians and degrees.
-constexpr double pi() { return M_PI; }
-double deg2rad(double x) { return x * pi() / 180; }
-double rad2deg(double x) { return x * 180 / pi(); }
-
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned, else the empty string "" will be returned.
 string hasData(string s) {
@@ -41,6 +36,7 @@ string hasData(string s) {
 
   return "";
 }
+
 
 XYPoints start_engine(Vehicle& car, PathConverter& pathConverter){
 
@@ -59,8 +55,11 @@ XYPoints start_engine(Vehicle& car, PathConverter& pathConverter){
   JMT jmt_s(startState_s, endState_s, t);
   JMT jmt_d(startState_d, endState_d, t);
 
+  car.update_save_states(endState_s, endState_d);
+
   return pathConverter.make_path(jmt_s, jmt_d, dt, n);
 }
+
 
 int main() {
 
@@ -147,7 +146,6 @@ int main() {
             just_starting = false;
             XY_points = start_engine(myCar, pathConverter);
           }
-
 
 
           json msgJson;
