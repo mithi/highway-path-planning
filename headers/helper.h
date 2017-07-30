@@ -32,7 +32,7 @@ struct State {
 };
 
 /* XYPoints stores two vectors x, y which are the map coordinates to be passed to
- * the simulator. Also holds double n intended to store the number of (x, y) pairs
+ * the simulator. Also holds an int n intended to store the number of (x, y) pairs
  */
 struct XYPoints {
   std::vector<double> xs;
