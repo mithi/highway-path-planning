@@ -133,12 +133,13 @@ int main() {
           if (just_starting) {
 
             //Our car hasn't moved yet. Let's move it!
+            cout << "Starting engine..." << endl;
             XY_points = start_engine(myCar, pathConverter);
             just_starting = false;
+            cout << "Engine started..." << endl;
 
           } else if (n < PATH_SIZE_CUTOFF) {
 
-            cout << "WE HAVE TO UPDATE OUR PATH" << endl;
             // Our previous plan is about to run out, so append to it
             // Make a list of all relevant information about other cars
             vector<Vehicle> otherCars;
@@ -187,21 +188,12 @@ int main() {
             // when generating a trajectory next time
             myCar.update_save_states(trajectory.targetState_s, trajectory.targetState_d);
 
-            cout << "NUMBER OF POINTS" << NUMBER_OF_POINTS << endl;
-            cout << "jmt_s \n" << trajectory.get_jmt_s().c.transpose() << endl;
-            cout << "jmt_d \n" << trajectory.get_jmt_d().c.transpose() << endl;
-
             // convert this trajectory in the s-d frame to to discrete XY points
             // the simulator can understand
             XYPoints NextXY_points = pathConverter.make_path(
               trajectory.get_jmt_s(), trajectory.get_jmt_d(), TIME_INCREMENT, NUMBER_OF_POINTS);
 
             NextXY_points.n = NUMBER_OF_POINTS;
-
-            cout << "NEW PATH GENERATED:" << endl;
-            for (int i = 0; i < NUMBER_OF_POINTS; i++){
-              cout << "(x, y) - " << NextXY_points.xs[i] << "," << NextXY_points.ys[i] << endl;
-            }
 
             // Append these generated points to the old points
             XY_points.xs.insert(
@@ -211,12 +203,7 @@ int main() {
               XY_points.ys.end(), NextXY_points.ys.begin(), NextXY_points.ys.end());
 
             XY_points.n = XY_points.xs.size();
-
-
           }
-
-
-
 
           //*********************************
           //* Send updated path plan to simulator
