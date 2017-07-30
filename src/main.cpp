@@ -13,6 +13,8 @@
 #include "pathconverter.h"
 #include "vehicle.h"
 #include "jmt.h"
+#include "behaviorplanner.h"
+#include "trajectory.h"
 
 using namespace std;
 
@@ -39,9 +41,8 @@ string hasData(string s) {
 
 XYPoints start_engine(Vehicle& car, PathConverter& pathConverter){
 
-  const double dt = 0.02;
   const int n = 225;
-  const double t = n * dt;
+  const double t = n * TIME_INCREMENT;
   const double target_speed = 20.0;
   const double target_s = car.s + 40.0;
 
@@ -56,7 +57,7 @@ XYPoints start_engine(Vehicle& car, PathConverter& pathConverter){
 
   car.update_save_states(endState_s, endState_d);
 
-  return pathConverter.make_path(jmt_s, jmt_d, dt, n);
+  return pathConverter.make_path(jmt_s, jmt_d, TIME_INCREMENT, n);
 }
 
 
@@ -68,7 +69,7 @@ int main() {
   bool just_starting = true;
 
   cout << "Loading map..." << endl;
-  PathConverter pathConverter("../data/highway_map.csv", 6945.554);
+  PathConverter pathConverter("../data/highway_map.csv", TRACK_DISTANCE);
   cout << "Map loaded..." << endl;
 
 
@@ -82,7 +83,6 @@ int main() {
     //auto sdata = string(data).substr(0, length);
     //cout << sdata << endl;
 
-
     if (length && length > 2 && data[0] == '4' && data[1] == '2') {
 
       auto s = hasData(data);
@@ -93,8 +93,9 @@ int main() {
         string event = j[0].get<string>();
 
         if (event == "telemetry") {
+
           //*********************************
-          //* Get data from simulator
+          //* Get relevant data from simulator
           //*********************************
 
           // j[1] is the data JSON object
@@ -110,14 +111,10 @@ int main() {
           double end_path_s = j[1]["end_path_s"];
           double end_path_d = j[1]["end_path_d"];
 
-          // Sensor Fusion Data, a list of all other cars on the same side of the road.
           auto sensor_fusion = j[1]["sensor_fusion"];
 
-          int n = previous_path_x.size();
-          XYPoints XY_points = {previous_path_x, previous_path_y, n};
-
           //*********************************
-          //* Update car objects
+          //* Update car object
           //*********************************
 
           Vehicle myCar(66666);
@@ -125,27 +122,105 @@ int main() {
           myCar.update_speed(car_speed);
           myCar.specify_adjacent_lanes();
 
-          vector<Vehicle> otherCars;
+          //*********************************
+          //* Generate the XY_points which will be sent to the simulator
+          //*********************************
 
-          for (int i = 0; i < sensor_fusion.size(); i++) {
+          // Our default is to just give back our previous plan
+          int n = previous_path_x.size();
+          XYPoints XY_points = {previous_path_x, previous_path_y, n};
 
-            int id = sensor_fusion[i][0];
-            double s = sensor_fusion[i][5];
-            double d = sensor_fusion[i][6];
-            double vx = sensor_fusion[i][3];
-            double vy = sensor_fusion[i][4];
+          if (just_starting) {
 
-             Vehicle car(id);
-             car.update_position(s, d);
-             car.update_speed(sqrt(vx * vx + vy * vy));
-             otherCars.push_back(car);
-          }
-
-          if (just_starting) { //Our car hasn't moved yet. Let's move it!
-            just_starting = false;
+            //Our car hasn't moved yet. Let's move it!
             XY_points = start_engine(myCar, pathConverter);
+            just_starting = false;
+
+          } else if (n < PATH_SIZE_CUTOFF) {
+
+            cout << "WE HAVE TO UPDATE OUR PATH" << endl;
+            // Our previous plan is about to run out, so append to it
+            // Make a list of all relevant information about other cars
+            vector<Vehicle> otherCars;
+
+            for (int i = 0; i < sensor_fusion.size(); i++) {
+
+              int id = sensor_fusion[i][0];
+              double s = sensor_fusion[i][5];
+              double d = sensor_fusion[i][6];
+              double vx = sensor_fusion[i][3];
+              double vy = sensor_fusion[i][4];
+
+              Vehicle car(id);
+              car.update_position(s, d);
+              car.update_speed(sqrt(vx * vx + vy * vy));
+              otherCars.emplace_back(car);
+            }
+
+            // Decide whether to turn left, turn right or keeplane based on data at hand
+            // NOTE: BehaviorPlanner updates our car's current leading/front vehicle's speed and gap
+            BehaviorPlanner planner;
+            BehaviorType behavior = planner.update(myCar, otherCars);
+
+            if (behavior == BehaviorType::TURNLEFT) {
+              cout << "suggested behavior: TURN LEFT" << endl;
+            }
+
+            if (behavior == BehaviorType::TURNRIGHT) {
+              cout << "suggested behavior: TURN RIGHT" << endl;
+            }
+
+            if (behavior == BehaviorType::KEEPLANE) {
+              cout << "suggested behavior: GO STRAIGHT" << endl;
+            }
+
+            // This trajectory generates target states and then from this
+            // generates a jerk minimized trajectory fucntion
+            // given the impending state and suggested behavior
+            Trajectory trajectory(myCar, behavior);
+
+            cout << "target s:" << trajectory.targetState_s.v << endl;
+            cout << "target d:" << trajectory.targetState_d.p << endl;
+
+            //Update saved state of our car (THIS IS IMPORTANT) with the latest
+            // generated target states, this is to be used as the starting state
+            // when generating a trajectory next time
+            myCar.update_save_states(trajectory.targetState_s, trajectory.targetState_d);
+
+            cout << "NUMBER OF POINTS" << NUMBER_OF_POINTS << endl;
+            cout << "jmt_s \n" << trajectory.get_jmt_s().c.transpose() << endl;
+            cout << "jmt_d \n" << trajectory.get_jmt_d().c.transpose() << endl;
+
+            // convert this trajectory in the s-d frame to to discrete XY points
+            // the simulator can understand
+            XYPoints NextXY_points = pathConverter.make_path(
+              trajectory.get_jmt_s(), trajectory.get_jmt_d(), TIME_INCREMENT, NUMBER_OF_POINTS);
+
+            NextXY_points.n = NUMBER_OF_POINTS;
+
+            cout << "NEW PATH GENERATED:" << endl;
+            for (int i = 0; i < NUMBER_OF_POINTS; i++){
+              cout << "(x, y) - " << NextXY_points.xs[i] << "," << NextXY_points.ys[i] << endl;
+            }
+
+            // Append these generated points to the old points
+            XY_points.xs.insert(
+              XY_points.xs.end(), NextXY_points.xs.begin(), NextXY_points.xs.end());
+
+            XY_points.ys.insert(
+              XY_points.ys.end(), NextXY_points.ys.begin(), NextXY_points.ys.end());
+
+            XY_points.n = XY_points.xs.size();
+
+
           }
 
+
+
+
+          //*********************************
+          //* Send updated path plan to simulator
+          //*********************************
 
           json msgJson;
 
