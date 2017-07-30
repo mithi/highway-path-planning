@@ -1,0 +1,22 @@
+#ifndef BEHAVIORPLANNER_H_
+#define BEHAVIORPLANNER_H_
+
+#include <vector>
+#include "helper.h"
+#include "vehicle.h"
+
+class BehaviorPlanner{
+
+  public:
+    BehaviorPlanner();
+    BehaviorType get(Vehicle& myCar, std::vector<Vehicle>& otherCars);
+    double get_gap(const Vehicle &myCar,
+                   const std::vector<Vehicle>& otherCars,
+                   const LaneType lane_type,
+                   const double where) const;
+  private:
+    double get_cost(const double front_gap, const double back_gap, const LaneType lane) const;
+    double get_cost(const double gap) const;
+};
+
+#endif //BEHAVIORPLANNER_H_
