@@ -33,21 +33,21 @@ class PathConverter{
                   distance - the total road distance of the map
     **/
 
-    std::vector<double> convert_sd_to_xy(const double s, const double d);
+    std::vector<double> convert_sd_to_xy(const double s, const double d) const;
     /**
       Takes in (s, d) coordinates in the frenet frame (which is along the loop of the road)
       Returns a vector (x, y) which are cartesian coordinates in the fixed map frame
      **/
 
-    XYPoints make_path(JMT& jmt_s, JMT& jmt_d, const double t, const int n);
+    XYPoints make_path(JMT& jmt_s, JMT& jmt_d, const double t, const int n) const;
 
-    void save(std::string file_path, const double t, const int n);
+    void save(std::string file_path, const double t, const int n) const;
     /** Takes in: file_path - path where the waypoints will be saved
                   t - distance between way points
                   n - number of way points
      **/
 
-    void save(std::string file_path, const double t, const int n, const double d);
+    void save(std::string file_path, const double t, const int n, const double d) const;
     /** Takes in: file_path - path where the waypoints will be saved
                   t - distance between way points
                   n - number of waypoints

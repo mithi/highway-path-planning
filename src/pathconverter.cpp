@@ -34,11 +34,11 @@ PathConverter::PathConverter(std::string file_path, const double distance) {
     iss >> dx;
     iss >> dy;
 
-    xs.push_back(x);
-    ys.push_back(y);
-    ss.push_back(s);
-    dxs.push_back(dx);
-    dys.push_back(dy);
+    xs.emplace_back(x);
+    ys.emplace_back(y);
+    ss.emplace_back(s);
+    dxs.emplace_back(dx);
+    dys.emplace_back(dy);
 
     if (first) {
       x1 = x;
@@ -53,11 +53,11 @@ PathConverter::PathConverter(std::string file_path, const double distance) {
     in_file.close();
   }
 
-  xs.push_back(x1);
-  ys.push_back(y1);
-  ss.push_back(distance);
-  dxs.push_back(dx1);
-  dys.push_back(dy1);
+  xs.emplace_back(x1);
+  ys.emplace_back(y1);
+  ss.emplace_back(distance);
+  dxs.emplace_back(dx1);
+  dys.emplace_back(dy1);
 
   // Uses the loaded information to fit cubic polynomial curves
   this->x_spline.set_points(ss, xs);
@@ -67,7 +67,7 @@ PathConverter::PathConverter(std::string file_path, const double distance) {
   this->distance = distance;
 }
 
-vector<double> PathConverter::convert_sd_to_xy(const double s, const double d) {
+vector<double> PathConverter::convert_sd_to_xy(const double s, const double d) const {
 
   const double x_edge = this->x_spline(s);
   const double y_edge = this->y_spline(s);
@@ -80,7 +80,7 @@ vector<double> PathConverter::convert_sd_to_xy(const double s, const double d) {
   return {x, y};
 }
 
-XYPoints PathConverter::make_path(JMT& jmt_s, JMT& jmt_d, const double t, const int n){
+XYPoints PathConverter::make_path(JMT& jmt_s, JMT& jmt_d, const double t, const int n) const {
 
   vector<double> xs;
   vector<double> ys;
@@ -93,8 +93,8 @@ XYPoints PathConverter::make_path(JMT& jmt_s, JMT& jmt_d, const double t, const 
 
     vector<double> p = this->convert_sd_to_xy(s, d);
 
-    xs.push_back(p[0]);
-    ys.push_back(p[1]);
+    xs.emplace_back(p[0]);
+    ys.emplace_back(p[1]);
   }
 
   XYPoints path = {xs, ys, n};
@@ -102,7 +102,7 @@ XYPoints PathConverter::make_path(JMT& jmt_s, JMT& jmt_d, const double t, const 
   return path;
 }
 
-void PathConverter::save(std::string file_path, const double t, const int n){
+void PathConverter::save(std::string file_path, const double t, const int n) const {
 
   ofstream out_file(file_path.c_str(), ofstream::out);
 
@@ -127,7 +127,7 @@ void PathConverter::save(std::string file_path, const double t, const int n){
   }
 }
 
-void PathConverter::save(std::string file_path, const double t, const int n, const double d){
+void PathConverter::save(std::string file_path, const double t, const int n, const double d) const {
 
   ofstream out_file(file_path.c_str(), ofstream::out);
 
