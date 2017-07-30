@@ -11,7 +11,7 @@ Trajectory::Trajectory(Vehicle& car, const BehaviorType behavior){
 
   if (behavior == BehaviorType::KEEPLANE) {
 
-    bool safe = (car.front_v > HARD_SPEED_LIMIT) || (car.front_gap > FRONT_GAP_THRESH);
+    bool safe = (car.front_v > SPEED_LIMIT) || (car.front_gap > FRONT_GAP_THRESH);
     target_v =  safe ? SPEED_LIMIT : (car.front_v - buffer);
     target_s =  car.saved_state_s.p + TRAVERSE_TIME * 0.5 * (car.saved_state_s.v + target_v);
   }
