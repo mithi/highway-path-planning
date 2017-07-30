@@ -42,7 +42,6 @@ string hasData(string s) {
   return "";
 }
 
-
 int main() {
 
   uWS::Hub h;
@@ -50,8 +49,9 @@ int main() {
   cout << "Loading map..." << endl;
   PathConverter pathConverter("../data/highway_map.csv", 6945.554);
   cout << "Map loaded..." << endl;
-  bool has_started = false;
-  h.onMessage([&pathConverter, &has_started](
+
+  bool just_starting = true;
+  h.onMessage([&pathConverter, &just_starting](
 
     uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
 
@@ -125,29 +125,27 @@ int main() {
              otherCars.push_back(car);
           }
 
-          if (!has_started) {
+          if (just_starting) {
+           //Our car hasn't moved yet. Let's move it!
 
-            has_started = true;
-
-             cout << "Our car hasn't moved yet. Let's move it! :" << endl;
+            just_starting = false;
 
             State startState_s = {car_s, car_speed, 0.0};
             State startState_d = {car_d, 0.0, 0.0};
 
             double TIME_INCREMENT = 0.02;
-            int NUMBER_OF_POINTS = 1000;
-            double TRAVERSE_TIME = 20.0;
+            int NUMBER_OF_POINTS = 225;
+            double TRAVERSE_TIME = 4.5;
 
-            double GOAL_SPEED = 20.0;
-            double GOAL_s = car_s + 200.0;
+            double GOAL_SPEED = 21.0;
+            double GOAL_s = car_s + 0.5 * (car_speed + GOAL_SPEED) * TRAVERSE_TIME;
 
             State endState_s = {GOAL_s, GOAL_SPEED, 0.0};
-            State endState_d = {6.0, 0.0, 0.0};
+            State endState_d = {myCar.convert_lane_to_d(myCar.lane), 0.0, 0.0};
 
             JMT jmt_s(startState_s, endState_s, TRAVERSE_TIME);
             JMT jmt_d(startState_d, endState_d, TRAVERSE_TIME);
 
-            cout << "coefficients of jmt_d:" << jmt_d.c << endl;
             XY_points = pathConverter.make_path(jmt_s, jmt_d, TIME_INCREMENT, NUMBER_OF_POINTS);
 
           } else {
