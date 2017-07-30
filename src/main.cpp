@@ -39,6 +39,21 @@ string hasData(string s) {
 }
 
 
+void print_lane(LaneType lane){
+
+  if (lane == LaneType::LEFT) {
+    cout << "LEFT       ";
+  } else if (lane == LaneType::MID) {
+    cout << "MID        ";
+  } else if (lane == LaneType::RIGHT) {
+    cout << "RIGHT      ";
+  } else if (lane == LaneType::NONE) {
+    cout << "NONE       ";
+  } else if (lane == LaneType::UNSPECIFIED) {
+    cout << "UNSPECIFIED";
+  }
+}
+
 XYPoints start_engine(Vehicle& car, PathConverter& pathConverter){
 
   const int n = 225;
@@ -121,6 +136,8 @@ int main() {
           myCar.update_position(car_s, car_d);
           myCar.update_speed(car_speed);
           myCar.specify_adjacent_lanes();
+          //myCar.saved_state_s.p = end_path_s;
+          //myCar.saved_state_d.p = end_path_d;
 
           //*********************************
           //* Generate the XY_points which will be sent to the simulator
@@ -158,30 +175,29 @@ int main() {
               otherCars.emplace_back(car);
             }
 
+
+            // For debugging...
+            cout << "---------------------------------" << endl;
+            cout << "our left:  our lane:   our right:" << endl;
+            print_lane(myCar.lane_at_left);
+            print_lane(myCar.lane);
+            print_lane(myCar.lane_at_right);
+            cout << endl;
+            cout << "---------------------------------" << endl;
+
             // Decide whether to turn left, turn right or keeplane based on data at hand
             // NOTE: BehaviorPlanner updates our car's current leading/front vehicle's speed and gap
+
             BehaviorPlanner planner;
             BehaviorType behavior = planner.update(myCar, otherCars);
-
-            if (behavior == BehaviorType::TURNLEFT) {
-              cout << "suggested behavior: TURN LEFT" << endl;
-            }
-
-            if (behavior == BehaviorType::TURNRIGHT) {
-              cout << "suggested behavior: TURN RIGHT" << endl;
-            }
-
-            if (behavior == BehaviorType::KEEPLANE) {
-              cout << "suggested behavior: GO STRAIGHT" << endl;
-            }
 
             // This trajectory generates target states and then from this
             // generates a jerk minimized trajectory fucntion
             // given the impending state and suggested behavior
             Trajectory trajectory(myCar, behavior);
 
-            cout << " target s: " << trajectory.targetState_s.p
-                 << " target d: " << trajectory.targetState_d.p << endl;
+            //cout << " target s: " << trajectory.targetState_s.p
+            //     << " target d: " << trajectory.targetState_d.p << endl;
 
             //Update saved state of our car (THIS IS IMPORTANT) with the latest
             // generated target states, this is to be used as the starting state
