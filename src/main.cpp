@@ -12,7 +12,6 @@
 
 #include "pathconverter.h"
 #include "vehicle.h"
-#include "nearby.h"
 #include "jmt.h"
 
 using namespace std;
