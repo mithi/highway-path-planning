@@ -14,7 +14,7 @@ const double HARD_SPEED_LIMIT = 22.352; // 50mph in m/s
 const double SPEED_LIMIT = 21.0;
 
 const double TIME_INCREMENT = 0.02;
-const double TRAVERSE_TIME = 2.0;
+const double TRAVERSE_TIME = 1.75;
 const int NUMBER_OF_POINTS = int(TRAVERSE_TIME / TIME_INCREMENT);
 
 const double FRONT_GAP_THRESH = 30.0; // 0, 5, 10, 15, 20
