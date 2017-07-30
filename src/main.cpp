@@ -42,15 +42,38 @@ string hasData(string s) {
   return "";
 }
 
+XYPoints start_engine(Vehicle& car, PathConverter& pathConverter){
+
+  const double dt = 0.02;
+  const int n = 225;
+  const double t = n * dt;
+  const double target_speed = 20.0;
+  const double target_s = car.s + 40.0;
+
+  const State startState_s = {car.s, car.v, 0.0};
+  const State startState_d = {car.d, 0.0, 0.0};
+
+  const State endState_s = {target_s, target_speed, 0.0};
+  const State endState_d = {car.convert_lane_to_d(), 0.0, 0.0};
+
+  JMT jmt_s(startState_s, endState_s, t);
+  JMT jmt_d(startState_d, endState_d, t);
+
+  return pathConverter.make_path(jmt_s, jmt_d, dt, n);
+}
+
 int main() {
 
   uWS::Hub h;
+
+  cout << "Program Started." << endl;
+  bool just_starting = true;
 
   cout << "Loading map..." << endl;
   PathConverter pathConverter("../data/highway_map.csv", 6945.554);
   cout << "Map loaded..." << endl;
 
-  bool just_starting = true;
+
   h.onMessage([&pathConverter, &just_starting](
 
     uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -120,36 +143,15 @@ int main() {
              otherCars.push_back(car);
           }
 
-          if (just_starting) {
-           //Our car hasn't moved yet. Let's move it!
-
+          if (just_starting) { //Our car hasn't moved yet. Let's move it!
             just_starting = false;
-
-            State startState_s = {car_s, car_speed, 0.0};
-            State startState_d = {car_d, 0.0, 0.0};
-
-            double TIME_INCREMENT = 0.02;
-            int NUMBER_OF_POINTS = 225;
-            double TRAVERSE_TIME = 4.5;
-
-            double GOAL_SPEED = 21.0;
-            double GOAL_s = car_s + 0.5 * (car_speed + GOAL_SPEED) * TRAVERSE_TIME;
-
-            State endState_s = {GOAL_s, GOAL_SPEED, 0.0};
-            State endState_d = {myCar.convert_lane_to_d(myCar.lane), 0.0, 0.0};
-
-            JMT jmt_s(startState_s, endState_s, TRAVERSE_TIME);
-            JMT jmt_d(startState_d, endState_d, TRAVERSE_TIME);
-
-            XY_points = pathConverter.make_path(jmt_s, jmt_d, TIME_INCREMENT, NUMBER_OF_POINTS);
-
-          } else {
-            cout << "finishing path :)" << endl;
+            XY_points = start_engine(myCar, pathConverter);
           }
+
+
 
           json msgJson;
 
-          // TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
           msgJson["next_x"] = XY_points.xs;
           msgJson["next_y"] = XY_points.ys;
 
