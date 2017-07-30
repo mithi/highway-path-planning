@@ -4,11 +4,23 @@
 #include <assert.h>
 #include <vector>
 
+const double FROM_FRONT = 1.0;
+const double FROM_BACK = 1.0;
+
 const double REALLY_BIG_NUMBER = 1000000.0;
 
-const double SPEEDLIMIT = 22.352; // 50mph in m/s
-const double ACCELLIMIT = 10.0; // m/s^2
+const double HARDSPEEDLIMIT = 22.352; // 50mph in m/s
+const double SPEEDLIMIT = 22.0;
 
+const double TIME_INCREMENT = 0.02;
+const double TRAVERSE_TIME = 2.5;
+const int NUMBER_OF_POINTS = int(TIME_INCREMENT * TRAVERSE_TIME);
+
+const double FRONT_GAP_THRESH = 0.0; // 0, 5, 10, 15, 20
+const double BACK_GAP_THRESH = 0.0; // 0, 5, 10
+const double CHANGELANE_PENALTY = 0.0; // 0, 5
+
+const int  PATH_SIZE_CUTOFF = 15;// 10, 15, 20
 
 enum class LaneType {
   LEFT, MID, RIGHT, NONE, UNSPECIFIED
