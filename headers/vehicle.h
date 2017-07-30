@@ -12,7 +12,8 @@ class Vehicle {
     double s;
     double d;
     double v;
-
+    double front_gap;
+    
     State saved_state_s;
     State saved_state_d;
 
