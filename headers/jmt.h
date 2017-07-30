@@ -11,8 +11,8 @@ class JMT {
 
   public:
     Eigen::VectorXd c;
-    JMT(State start, State end, const double t);
-    double get(const double t);
+    JMT(const State& start, const State& end, const double t);
+    double get(const double t) const;
 };
 
 #endif // JMT_H_

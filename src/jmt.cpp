@@ -3,7 +3,7 @@
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
-JMT::JMT(State start, State end, const double t) {
+JMT::JMT(const State& start, const State& end, const double t) {
 
   MatrixXd A = MatrixXd(3,3);
   VectorXd b = VectorXd(3);
@@ -35,7 +35,7 @@ JMT::JMT(State start, State end, const double t) {
     //std::cout << this->c << std::endl;
 }
 
-double JMT::get(const double t) {
+double JMT::get(const double t) const{
 
   const double t2 = t * t;
   const double t3 = t * t2;
