@@ -72,9 +72,12 @@ double BehaviorPlanner::get_cost(const double front_gap, const double back_gap, 
     cout << "| \n" << "|" << endl;
   }
 
+  // We don't want to turn at every opportunity back and forth
+  cost = cost * TURN_PENALTY_FACTOR;
+
   if (lane == LaneType::MID) {
     // we want to reward going in the middle
-    cost = cost * MIDLANE_FACTOR;
+    cost = cost * MIDLANE_REWARD_FACTOR;
   }
 
   return cost;

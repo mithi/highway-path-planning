@@ -116,6 +116,9 @@ int main() {
           // j[1] is the data JSON object
 
         	// Main car's localization Data
+          double car_x = j[1]["x"];
+          double car_y = j[1]["y"];
+
           double car_s = j[1]["s"];
           double car_d = j[1]["d"];
           double car_speed = j[1]["speed"];
@@ -175,14 +178,21 @@ int main() {
               otherCars.emplace_back(car);
             }
 
+            // Print for debugging
+            cout << "---------------------------------" << endl;
+            cout << "POSITION: s, d --- x, y :" << endl;
+            cout << car_s << " , "
+                 << car_d << " --- "
+                 << car_x << " , "
+                 << car_y  << endl;
 
-            // For debugging...
             cout << "---------------------------------" << endl;
             cout << "our left:  our lane:   our right:" << endl;
             print_lane(myCar.lane_at_left);
             print_lane(myCar.lane);
             print_lane(myCar.lane_at_right);
             cout << endl;
+
             cout << "---------------------------------" << endl;
 
             // Decide whether to turn left, turn right or keeplane based on data at hand
@@ -220,7 +230,8 @@ int main() {
 
             XY_points.n = XY_points.xs.size();
 
-            if (myCar.saved_state_s.p == TRACK_DISTANCE) {
+            if (myCar.saved_state_s.p >= TRACK_DISTANCE) {
+              cout << "One lap completed." << endl;
               just_starting = true;
             }
           }

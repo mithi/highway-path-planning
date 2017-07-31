@@ -22,9 +22,10 @@ const double BACK_GAP_THRESH = 15.0;
 
 const double SPEED_BUFFER = 5.0;
 
-const double MIDLANE_FACTOR = 0.25;
+const double MIDLANE_REWARD_FACTOR = 0.25; //must be 0 < x < 1
 const double BACK_GAP_FACTOR = 0.5;
 const double FRONT_GAP_FACTOR = 1.0;
+const double TURN_PENALTY_FACTOR = 1.25; // must be x > 1
 
 const int  PATH_SIZE_CUTOFF = 10;
 
