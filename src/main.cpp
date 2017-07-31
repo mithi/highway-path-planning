@@ -180,11 +180,12 @@ int main() {
 
             // Print for debugging
             cout << "---------------------------------" << endl;
-            cout << "POSITION: s, d --- x, y :" << endl;
+            cout << "STATE: s, d --- x, y --- v:" << endl;
             cout << car_s << " , "
                  << car_d << " --- "
                  << car_x << " , "
-                 << car_y  << endl;
+                 << car_y  << " --- "
+                 << car_speed << ":" << endl;
 
             cout << "---------------------------------" << endl;
             cout << "our left:  our lane:   our right:" << endl;

@@ -27,11 +27,11 @@ BehaviorType BehaviorPlanner::update(Vehicle& myCar, std::vector<Vehicle>& other
   const double right_cost = this->get_cost(frontright, backright, myCar.lane_at_right);
 
   cout << "|" << endl;
-  cout << "| FRONT GAP - left | straight | right:" << endl;
+  cout << "| GAP FRONT - left | straight | right:" << endl;
   cout << "|           " << frontleft << " | " << myCar.front_gap << " | " << frontright << endl;
 
   cout << "|" << endl;
-  cout << "| BACK GAP - left v right:" << endl;
+  cout << "| GAP BACK - left | right:" << endl;
   cout << "|          " << backleft << " | " << backright << endl;
   cout << "|" << endl;
 
