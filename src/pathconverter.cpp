@@ -69,10 +69,11 @@ PathConverter::PathConverter(std::string file_path, const double distance) {
 
 vector<double> PathConverter::convert_sd_to_xy(const double s, const double d) const {
 
-  const double x_edge = this->x_spline(s);
-  const double y_edge = this->y_spline(s);
-  const double dx = this->dx_spline(s);
-  const double dy = this->dy_spline(s);
+  const double mod_s = fmod(s, this->distance);
+  const double x_edge = this->x_spline(mod_s);
+  const double y_edge = this->y_spline(mod_s);
+  const double dx = this->dx_spline(mod_s);
+  const double dy = this->dy_spline(mod_s);
 
   const double x = x_edge + dx * d;
   const double y = y_edge + dy * d;

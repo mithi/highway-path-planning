@@ -13,12 +13,6 @@ Trajectory::Trajectory(Vehicle& car, const BehaviorType behavior){
     target_s =  car.saved_state_s.p + TRAVERSE_TIME * 0.5 * (car.saved_state_s.v + target_v);
   }
 
-  if (target_s > (TRACK_DISTANCE - DISTANCE_BUFFER)) {
-    std::cout << "WARNING: NEARING THE END OF THE TRACK!!" << std::endl;
-    target_v = 0.0;
-    target_s = TRACK_DISTANCE;
-  }
-
   this->targetState_s = {target_s, target_v, 0.0};
 
   // get target states based on behavior d component

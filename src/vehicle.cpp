@@ -25,6 +25,8 @@ void Vehicle::update_save_states(const State& state_s, const State& state_d){
 
   this->saved_state_s = state_s;
   this->saved_state_d = state_d;
+
+  this->saved_state_s.p = fmod(this->saved_state_s.p, TRACK_DISTANCE);
 }
 
 void Vehicle::specify_adjacent_lanes(){

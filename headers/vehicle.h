@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <math.h>
 #include "helper.h"
 
 class Vehicle {
@@ -16,7 +17,7 @@ class Vehicle {
     double front_gap;
     double front_v;
     double front_s;
-    
+
     State saved_state_s;
     State saved_state_d;
 
