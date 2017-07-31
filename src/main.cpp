@@ -230,11 +230,11 @@ int main() {
               XY_points.ys.end(), NextXY_points.ys.begin(), NextXY_points.ys.end());
 
             XY_points.n = XY_points.xs.size();
+          }
 
-            if (myCar.saved_state_s.p >= TRACK_DISTANCE) {
-              cout << "One lap completed." << endl;
-              just_starting = true;
-            }
+          if (myCar.saved_state_s.p >= TRACK_DISTANCE && n < PATH_SIZE_CUTOFF) {
+            cout << "One lap completed." << endl;
+            exit(EXIT_SUCCESS);
           }
 
           //*********************************

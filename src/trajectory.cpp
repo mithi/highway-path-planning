@@ -5,8 +5,6 @@ Trajectory::Trajectory(Vehicle& car, const BehaviorType behavior){
   // get target states based on behavior s component
   double target_s = car.saved_state_s.p + TRAVERSE_TIME * car.saved_state_s.v;
   double target_v = car.saved_state_s.v;
-  const double FRONT_BUFFER = FRONT_GAP_THRESH + 20.0;
-  const double DISTANCE_BUFFER = 45;
 
   if (behavior == BehaviorType::KEEPLANE) {
 
