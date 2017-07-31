@@ -18,19 +18,21 @@ BehaviorType BehaviorPlanner::update(Vehicle& myCar, std::vector<Vehicle>& other
   const double frontright = this->get_gap(myCar, otherCars, myCar.lane_at_right, FROM_FRONT);
   const double backright = this->get_gap(myCar, otherCars, myCar.lane_at_right, FROM_BACK);
 
+  cout << "|" << endl;
   cout << "| LOOK LEFT..." << endl;
   const double left_cost = this->get_cost(frontleft, backleft, myCar.lane_at_left);
 
+  cout << "|" << endl;
   cout << "| LOOK RIGHT..." << endl;
   const double right_cost = this->get_cost(frontright, backright, myCar.lane_at_right);
 
   cout << "|" << endl;
-  cout << "| FRONT GAP - left v straight v right:" << endl;
-  cout << "|           " << frontleft << " v " << myCar.front_gap << " v " << frontright << endl;
+  cout << "| FRONT GAP - left | straight | right:" << endl;
+  cout << "|           " << frontleft << " | " << myCar.front_gap << " | " << frontright << endl;
 
   cout << "|" << endl;
   cout << "| BACK GAP - left v right:" << endl;
-  cout << "|          " << backleft << " v " << backright << endl;
+  cout << "|          " << backleft << " | " << backright << endl;
   cout << "|" << endl;
 
   if (left_cost < straight_cost && left_cost < right_cost){
@@ -47,8 +49,8 @@ BehaviorType BehaviorPlanner::update(Vehicle& myCar, std::vector<Vehicle>& other
   }
 
   cout << "| DECISION: KEEP LANE." << endl;
-  cout << "| COSTS - left v straight v right:" << endl;
-  cout << "|        " << left_cost << " v " << straight_cost << " v " << right_cost << endl;
+  cout << "| COSTS - left | straight | right:" << endl;
+  cout << "|        " << left_cost << " | " << straight_cost << " | " << right_cost << endl;
 
   return BehaviorType::KEEPLANE;
 }
@@ -58,6 +60,7 @@ double BehaviorPlanner::get_cost(const double front_gap, const double back_gap, 
   double cost = (FRONT_GAP_FACTOR / front_gap + BACK_GAP_FACTOR / back_gap);
 
   if (lane == LaneType::NONE || lane == LaneType::UNSPECIFIED) {
+    cout << "|... No lane. \n" << "|" << endl;
     return REALLY_BIG_NUMBER;
   }
 
