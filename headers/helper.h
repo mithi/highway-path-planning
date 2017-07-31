@@ -25,10 +25,10 @@ const double SPEED_BUFFER = 6.0;
 const double MIDLANE_REWARD_FACTOR = 0.2; //must be 0 < x < 1
 const double BACK_GAP_FACTOR = 0.4;
 const double FRONT_GAP_FACTOR = 1.0;
-const double TURN_PENALTY_FACTOR = 1.1; // must be x > 1
+const double TURN_PENALTY_FACTOR = 1.2; // must be x > 1
 
-const double FRONT_BUFFER = FRONT_GAP_THRESH + 20.0;
-const double DISTANCE_BUFFER = 45.0;
+const double FRONT_BUFFER = FRONT_GAP_THRESH + 15.0;
+const double DISTANCE_BUFFER = 5.0;
 
 const int  PATH_SIZE_CUTOFF = 10;
 
