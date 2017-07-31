@@ -136,12 +136,10 @@ int main() {
           //* Update car object
           //*********************************
 
-          Vehicle myCar(66666);
+          Vehicle myCar(666); // I just like 666
           myCar.update_position(car_s, car_d);
           myCar.update_speed(car_speed);
           myCar.specify_adjacent_lanes();
-          //myCar.saved_state_s.p = end_path_s;
-          //myCar.saved_state_d.p = end_path_d;
 
           //*********************************
           //* Generate the XY_points which will be sent to the simulator
