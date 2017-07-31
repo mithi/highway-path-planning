@@ -12,6 +12,7 @@ const double TRACK_DISTANCE = 6945.554;
 
 const double HARD_SPEED_LIMIT = 22.352; // 50mph in m/s
 const double SPEED_LIMIT = 20.0;
+const double MIN_SPEED = 12.0;
 
 const double TIME_INCREMENT = 0.02;
 const double TRAVERSE_TIME = 2.0;

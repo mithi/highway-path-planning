@@ -11,6 +11,7 @@ Trajectory::Trajectory(Vehicle& car, const BehaviorType behavior){
     bool safe = (car.front_v > SPEED_LIMIT) || (car.front_gap > FRONT_BUFFER);
     target_v =  safe ? SPEED_LIMIT : (car.front_v - SPEED_BUFFER);
     target_s =  car.saved_state_s.p + TRAVERSE_TIME * 0.5 * (car.saved_state_s.v + target_v);
+    target_v = target_v > MIN_SPEED ? target_v : MIN_SPEED;
   }
 
   this->targetState_s = {target_s, target_v, 0.0};
