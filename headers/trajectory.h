@@ -2,6 +2,7 @@
 #define TRAJECTORY_H_
 
 #include <vector>
+#include <iostream>
 #include "helper.h"
 #include "vehicle.h"
 #include "jmt.h"
