@@ -219,6 +219,10 @@ int main() {
               XY_points.ys.end(), NextXY_points.ys.begin(), NextXY_points.ys.end());
 
             XY_points.n = XY_points.xs.size();
+
+            if (myCar.saved_state_s.p == TRACK_DISTANCE) {
+              just_starting = true;
+            }
           }
 
           //*********************************

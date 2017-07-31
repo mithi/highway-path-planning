@@ -77,11 +77,11 @@ double Vehicle::convert_lane_to_d(const LaneType l){
   double d = -1;
 
   if (l == LaneType::LEFT) {
-    d = 2.0;
+    d = 2.2;
   } else if (l == LaneType::MID) {
     d = 6.0;
   } else if (l == LaneType::RIGHT) {
-    d = 10.0;
+    d = 9.8;
   }
 
   return d;

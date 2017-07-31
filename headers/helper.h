@@ -11,17 +11,22 @@ const double REALLY_BIG_NUMBER = 1000000.0;
 const double TRACK_DISTANCE = 6945.554;
 
 const double HARD_SPEED_LIMIT = 22.352; // 50mph in m/s
-const double SPEED_LIMIT = 21.0;
+const double SPEED_LIMIT = 20.0;
 
 const double TIME_INCREMENT = 0.02;
 const double TRAVERSE_TIME = 2.0;
 const int NUMBER_OF_POINTS = int(TRAVERSE_TIME / TIME_INCREMENT);
 
-const double FRONT_GAP_THRESH = 35.0;
-const double BACK_GAP_THRESH = 20.0;
-const double CHANGE_LANE_PENALTY = 0.0;
+const double FRONT_GAP_THRESH = 30.0;
+const double BACK_GAP_THRESH = 15.0;
 
-const int  PATH_SIZE_CUTOFF = 10; // 10, 15, 20
+const double SPEED_BUFFER = 5.0;
+
+const double MIDLANE_FACTOR = 0.25;
+const double BACK_GAP_FACTOR = 0.5;
+const double FRONT_GAP_FACTOR = 1.0;
+
+const int  PATH_SIZE_CUTOFF = 10;
 
 enum class LaneType {
   LEFT, MID, RIGHT, NONE, UNSPECIFIED
