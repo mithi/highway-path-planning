@@ -20,10 +20,10 @@ const int NUMBER_OF_POINTS = int(TRAVERSE_TIME / TIME_INCREMENT);
 const double FRONT_GAP_THRESH = 30.0;
 const double BACK_GAP_THRESH = 15.0;
 
-const double SPEED_BUFFER = 5.0;
+const double SPEED_BUFFER = 6.0;
 
-const double MIDLANE_REWARD_FACTOR = 0.4; //must be 0 < x < 1
-const double BACK_GAP_FACTOR = 0.5;
+const double MIDLANE_REWARD_FACTOR = 0.2; //must be 0 < x < 1
+const double BACK_GAP_FACTOR = 0.4;
 const double FRONT_GAP_FACTOR = 1.0;
 const double TURN_PENALTY_FACTOR = 1.1; // must be x > 1
 

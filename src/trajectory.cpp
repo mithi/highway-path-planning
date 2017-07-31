@@ -5,10 +5,12 @@ Trajectory::Trajectory(Vehicle& car, const BehaviorType behavior){
   // get target states based on behavior s component
   double target_s = car.saved_state_s.p + TRAVERSE_TIME * car.saved_state_s.v;
   double target_v = car.saved_state_s.v;
-
+  const double FRONT_BUFFER = FRONT_GAP_THRESH + 20.0;
+  const double DISTANCE_BUFFER = 40;
+  
   if (behavior == BehaviorType::KEEPLANE) {
 
-    bool safe = (car.front_v > SPEED_LIMIT) || (car.front_gap > FRONT_GAP_THRESH);
+    bool safe = (car.front_v > SPEED_LIMIT) || (car.front_gap > FRONT_BUFFER);
     target_v =  safe ? SPEED_LIMIT : (car.front_v - SPEED_BUFFER);
     target_s =  car.saved_state_s.p + TRAVERSE_TIME * 0.5 * (car.saved_state_s.v + target_v);
   }
