@@ -15,18 +15,18 @@ BehaviorType BehaviorPlanner::update(Vehicle& myCar, std::vector<Vehicle>& other
   const double frontleft = this->get_gap(myCar, otherCars, myCar.lane_at_left, FROM_FRONT);
   const double backleft = this->get_gap(myCar, otherCars, myCar.lane_at_left, FROM_BACK);
 
-  cout << "| LOOK LEFT..." << endl;
-  const double left_cost = this->get_cost(frontleft, backleft, myCar.lane_at_left);
-
   const double frontright = this->get_gap(myCar, otherCars, myCar.lane_at_right, FROM_FRONT);
   const double backright = this->get_gap(myCar, otherCars, myCar.lane_at_right, FROM_BACK);
+
+  cout << "| LOOK LEFT..." << endl;
+  const double left_cost = this->get_cost(frontleft, backleft, myCar.lane_at_left);
 
   cout << "| LOOK RIGHT..." << endl;
   const double right_cost = this->get_cost(frontright, backright, myCar.lane_at_right);
 
   cout << "|" << endl;
   cout << "| FRONT GAP - left v straight v right:" << endl;
-  cout << "|          " << frontleft << " v " << myCar.front_gap << " v " << frontright << endl;
+  cout << "|           " << frontleft << " v " << myCar.front_gap << " v " << frontright << endl;
 
   cout << "|" << endl;
   cout << "| BACK GAP - left v right:" << endl;
@@ -48,7 +48,7 @@ BehaviorType BehaviorPlanner::update(Vehicle& myCar, std::vector<Vehicle>& other
 
   cout << "| DECISION: KEEP LANE." << endl;
   cout << "| COSTS - left v straight v right:" << endl;
-  cout << "|          " << left_cost << " v " << straight_cost << " v " << right_cost << endl;
+  cout << "|        " << left_cost << " v " << straight_cost << " v " << right_cost << endl;
 
   return BehaviorType::KEEPLANE;
 }
