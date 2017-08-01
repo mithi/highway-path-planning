@@ -1,14 +1,12 @@
 #include "vehicle.h"
 
 Vehicle::Vehicle(const int i){
-
   this->id = i;
   this->lane = LaneType::UNSPECIFIED;
 }
 
 
 void Vehicle::update_position(const double s, const double d){
-
   this->s = s;
   this->d = d;
   this->lane = this->convert_d_to_lane(this->d);
@@ -16,16 +14,13 @@ void Vehicle::update_position(const double s, const double d){
 
 
 void Vehicle::update_speed(const double v){
-
   this->v = v;
 }
 
 
 void Vehicle::update_save_states(const State& state_s, const State& state_d){
-
   this->saved_state_s = state_s;
   this->saved_state_d = state_d;
-
   this->saved_state_s.p = fmod(this->saved_state_s.p, TRACK_DISTANCE);
 }
 
@@ -90,6 +85,5 @@ double Vehicle::convert_lane_to_d(const LaneType l){
 }
 
 double Vehicle::convert_lane_to_d(){
-
   return this->convert_lane_to_d(this->lane);
 }
