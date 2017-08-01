@@ -87,7 +87,6 @@ double BehaviorPlanner::get_cost(const double front_gap, const double back_gap, 
   return cost;
 }
 
-
 double BehaviorPlanner::get_cost(const double gap) const {
 
   if (gap < FRONT_GAP_THRESH) {
