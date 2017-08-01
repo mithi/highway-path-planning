@@ -87,7 +87,7 @@ XYPoints PathConverter::make_path(JMT jmt_s, JMT jmt_d, const double t, const in
   vector<double> ys;
   vector<double> p;
 
-  for(int i = 0; i < n; i++) {
+  for (int i = 0; i < n; i++) {
 
     double s = jmt_s.get(i * t);
     double d = jmt_d.get(i * t);
