@@ -207,10 +207,7 @@ int main() {
             // given the impending state and suggested behavior
             Trajectory trajectory(myCar, behavior);
 
-            //cout << " target s: " << trajectory.targetState_s.p
-            //     << " target d: " << trajectory.targetState_d.p << endl;
-
-            //Update saved state of our car (THIS IS IMPORTANT) with the latest
+            // Update saved state of our car (THIS IS IMPORTANT) with the latest
             // generated target states, this is to be used as the starting state
             // when generating a trajectory next time
             myCar.update_save_states(trajectory.targetState_s, trajectory.targetState_d);
