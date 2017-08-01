@@ -61,7 +61,6 @@ LaneType Vehicle::convert_d_to_lane(const double d){
   } else if (d > 8.0 && d < 12.0) {
     lane = LaneType::RIGHT;
   }
-
   return lane;
 }
 
@@ -80,7 +79,6 @@ double Vehicle::convert_lane_to_d(const LaneType l){
   } else if (l == LaneType::RIGHT) {
     d = 9.8;
   }
-
   return d;
 }
 
