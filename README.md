@@ -1,7 +1,7 @@
 # Introduction
 
 This is my submission to the path planning project for term 3 of Udacity's self-driving car program.
-The goal is to create a path planning pipeline that would smartly, safely, and comfortably navigate a virtual car around a virtual highway with other traffic. We are given a map of the highway, as well as sensor fusion and localization data about our car and nearby cars and we are supposed to give back a set of map points (x, y) that a perfect controller will execute every 0.02 seconds. Navigating safely and comfortably means we don't bump into other cars, we exceed the maximum speed, acceleration and jerk requirements. Navigating smartly mean we change lanes when we have to.
+The goal is to create a path planning pipeline that would smartly, safely, and comfortably navigate a virtual car around a virtual highway with other traffic. We are given a map of the highway, as well as sensor fusion and localization data about our car and nearby cars. We are supposed to give back a set of map points (x, y) that a perfect controller will execute every 0.02 seconds. Navigating safely and comfortably means we don't bump into other cars, we don't exceed the maximum speed, acceleration and jerk requirements. Navigating smartly means we change lanes when we have to.
 
 # Links
 
