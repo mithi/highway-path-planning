@@ -5,8 +5,8 @@ The goal is to create a path planning pipeline that would smartly, safely, and c
 
 # Links
 
--  Video of this in action
--  Model Documentation and Reflections
+-  [Video of this in action](https://www.youtube.com/watch?v=YoFUTnNaugQ)
+-  [Model Documentation and Reflections](https://github.com/mithi/highway-path-planning/blob/master/docs/MODEL_DOCUMENT_V1.pdf)
 - [Original project repository](https://github.com/udacity/CarND-Path-Planning-Project/blob/master/README.md)
 - Original [Udacity ReadMe](https://github.com/mithi/highway-path-planning/blob/master/docs/UDACITY_README.MD)
 - [Simulator Download Link]((https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2))
