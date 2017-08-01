@@ -35,4 +35,4 @@ and installed
 - Open the aforementioned simulator
 - Choose the lowest resolution and graphics quality of fastes for best results
 - Click the path planning section
-- Watch your automous car go :)
+- Watch your autonomous car go :)
