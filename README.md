@@ -5,15 +5,15 @@ The goal is to create a path planning pipeline that would smartly, safely, and c
 
 # Links
 
-## Video of this in action
-## Model Documentation and Reflections
-## [Original project repository](https://github.com/udacity/CarND-Path-Planning-Project/blob/master/README.md)
-## Original [Udacity ReadMe](https://github.com/mithi/highway-path-planning/blob/master/docs/UDACITY_README.MD)
-## [Simulator Download Link]((https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2))
+-  Video of this in action
+-  Model Documentation and Reflections
+- [Original project repository](https://github.com/udacity/CarND-Path-Planning-Project/blob/master/README.md)
+- Original [Udacity ReadMe](https://github.com/mithi/highway-path-planning/blob/master/docs/UDACITY_README.MD)
+- [Simulator Download Link]((https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2))
 
 # Project Goals Achieved
 
-## The following criteria have been met.
+### The following criteria have been met.
 - The car is able to drive at least 4.32 miles without incident.
 - The car doesn't drive faster than the speed limit. Also the car isn't driving much slower than speed limit unless obstructed by traffic.
 - Max Acceleration and Jerk are not exceeded. The car does not exceed a total acceleration of 10 m/s^2 and a jerk of 10 m/s^3.
