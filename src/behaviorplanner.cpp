@@ -9,8 +9,8 @@ BehaviorType BehaviorPlanner::update(Vehicle& myCar, std::vector<Vehicle>& other
   myCar.front_gap = this->get_gap(myCar, otherCars, myCar.lane, FROM_FRONT);
   myCar.front_v = this->current_front_v;
   myCar.front_s = this->current_front_s;
+  
   const double straight_cost = this->get_cost(myCar.front_gap);
-
 
   const double frontleft = this->get_gap(myCar, otherCars, myCar.lane_at_left, FROM_FRONT);
   const double backleft = this->get_gap(myCar, otherCars, myCar.lane_at_left, FROM_BACK);
@@ -38,13 +38,14 @@ BehaviorType BehaviorPlanner::update(Vehicle& myCar, std::vector<Vehicle>& other
   if (left_cost < straight_cost && left_cost < right_cost){
     cout << "| DECISION: TURN LEFT. " << left_cost << " < " << straight_cost << endl;
     cout << "| \n" << "|" << endl;
+    
     return BehaviorType::TURNLEFT;
   }
 
   if (right_cost < straight_cost && right_cost < left_cost) {
     cout << "| DECISION: TURN RIGHT. " << right_cost << " < " << straight_cost << endl;
     cout << "| \n" << "|" << endl;
-
+    
     return BehaviorType::TURNRIGHT;
   }
 
@@ -93,7 +94,9 @@ double BehaviorPlanner::get_cost(const double gap) const {
 
     cout << "|... WARNING: Too near the front vehicle!" << endl;
     cout << "| We must turn! gap: " << gap << endl;
+    
     return REALLY_BIG_NUMBER;
+    
   } else {
     cout << "| \n" << "|" << endl;
   }
