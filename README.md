@@ -40,6 +40,6 @@ and installed
 - Run it: `./path_planning.`
 
 - Open the aforementioned simulator
-- Choose the lowest resolution and graphics quality of fastes for best results
+- Choose the lowest resolution and graphics quality of fastest for best results
 - Click the path planning section
 - Watch your autonomous car go :)
