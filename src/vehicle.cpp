@@ -5,7 +5,6 @@ Vehicle::Vehicle(const int i){
   this->lane = LaneType::UNSPECIFIED;
 }
 
-
 void Vehicle::update_position(const double s, const double d){
   this->s = s;
   this->d = d;
@@ -16,7 +15,6 @@ void Vehicle::update_position(const double s, const double d){
 void Vehicle::update_speed(const double v){
   this->v = v;
 }
-
 
 void Vehicle::update_save_states(const State& state_s, const State& state_d){
   this->saved_state_s = state_s;
@@ -49,7 +47,6 @@ void Vehicle::specify_adjacent_lanes(){
   }
 }
 
-
 LaneType Vehicle::convert_d_to_lane(const double d){
 
   LaneType lane = LaneType::NONE;
@@ -70,7 +67,7 @@ LaneType Vehicle::convert_d_to_lane(){
 
 double Vehicle::convert_lane_to_d(const LaneType l){
 
-  double d = -1;
+  double d = -1.0;
 
   if (l == LaneType::LEFT) {
     d = 2.2;
