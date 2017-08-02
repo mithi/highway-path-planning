@@ -5,6 +5,13 @@ The goal is to create a path planning pipeline that would smartly, safely, and c
 
 # Links
 
+### Medium Article: Reflections on Designing a Virtual Highway Path Planner
+- [Part 1](https://medium.com/@mithi/reflections-on-designing-a-virtual-highway-path-planner-part-1-3-937259164650)
+- [Part 2](https://medium.com/@mithi/reflections-on-designing-a-virtual-highway-path-planner-part-2-3-392bc6cf11e7)
+- [Part 3](https://medium.com/@mithi/reflections-on-designing-a-virtual-highway-path-planner-part-3-3-a36bf629d239)
+
+
+### Others
 -  [Video of this in action](https://www.youtube.com/watch?v=YoFUTnNaugQ)
 -  [Model Documentation and Reflections](https://github.com/mithi/highway-path-planning/blob/master/docs/MODEL_DOCUMENT_V1.pdf)
 - [Original project repository](https://github.com/udacity/CarND-Path-Planning-Project/blob/master/README.md)
