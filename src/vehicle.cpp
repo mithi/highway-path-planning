@@ -11,7 +11,6 @@ void Vehicle::update_position(const double s, const double d){
   this->lane = this->convert_d_to_lane(this->d);
 }
 
-
 void Vehicle::update_speed(const double v){
   this->v = v;
 }
