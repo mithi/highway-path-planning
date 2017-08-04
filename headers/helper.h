@@ -33,6 +33,10 @@ const double DISTANCE_BUFFER = 5.0;
 
 const int  PATH_SIZE_CUTOFF = 10;
 
+const double LEFT_d = 2.2;
+const double MID_d = 6.0;
+const double RIGHT_d = 9.8;
+
 enum class LaneType {
   LEFT, MID, RIGHT, NONE, UNSPECIFIED
 };
