@@ -66,7 +66,7 @@ LaneType Vehicle::convert_d_to_lane(){
 
 double Vehicle::convert_lane_to_d(const LaneType l){
 
-  double d = -1.0;
+  double d = MID_d;
 
   if (l == LaneType::LEFT) {
     d = LEFT_d;
@@ -93,4 +93,6 @@ double Vehicle::get_target_d(const BehaviorType b){
   } else if (b == BehaviorType::TURNLEFT) {
     return this->convert_lane_to_d(this->lane_at_left);
   }
+
+  return this->convert_lane_to_d(this->lane);
 }
