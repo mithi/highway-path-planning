@@ -17,15 +17,7 @@ Trajectory::Trajectory(Vehicle& car, const BehaviorType behavior){
   this->targetState_s = {target_s, target_v, 0.0};
 
   // get target states based on behavior d component
-  double target_d = car.convert_lane_to_d();
-
-  if (behavior == BehaviorType::TURNLEFT) {
-    target_d = car.convert_lane_to_d(car.lane_at_left);
-  } else if (behavior == BehaviorType::TURNRIGHT) {
-    target_d = car.convert_lane_to_d(car.lane_at_right);
-  }
-
-  this->targetState_d = {target_d, 0.0, 0.0};
+  this->targetState_d = {car.get_target_d(behavior), 0.0, 0.0};
 
   // generate JMTs
   JMT jmt_s(car.saved_state_s, targetState_s, TRAVERSE_TIME);

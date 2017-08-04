@@ -31,11 +31,12 @@ class Vehicle {
     void update_speed(const double v);
     void update_save_states(const State& state_s, const State& state_d);
     void specify_adjacent_lanes();
-    
+
     LaneType convert_d_to_lane(const double d);
     LaneType convert_d_to_lane();
     double convert_lane_to_d(const LaneType l);
     double convert_lane_to_d();
+    double get_target_d(const BehaviorType b);
 };
 
 #endif //VEHICLE_H_

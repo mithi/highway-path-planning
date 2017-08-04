@@ -69,15 +69,28 @@ double Vehicle::convert_lane_to_d(const LaneType l){
   double d = -1.0;
 
   if (l == LaneType::LEFT) {
-    d = 2.2;
+    d = LEFT_d;
   } else if (l == LaneType::MID) {
-    d = 6.0;
+    d = MID_d;
   } else if (l == LaneType::RIGHT) {
-    d = 9.8;
+    d = RIGHT_d;
   }
   return d;
 }
 
 double Vehicle::convert_lane_to_d(){
   return this->convert_lane_to_d(this->lane);
+}
+
+double Vehicle::get_target_d(const BehaviorType b){
+
+  if (b == BehaviorType::KEEPLANE) {
+    return this->convert_lane_to_d(this->lane);
+
+  } else if (b == BehaviorType::TURNRIGHT) {
+    return this->convert_lane_to_d(this->lane_at_right);
+
+  } else if (b == BehaviorType::TURNLEFT) {
+    return this->convert_lane_to_d(this->lane_at_left);
+  }
 }
