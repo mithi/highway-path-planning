@@ -15,7 +15,7 @@ class Trajectory {
     State targetState_d;
     State targetState_s;
     JMT get_jmt_s() const;
-    JMT get_jmt_d() const ;
+    JMT get_jmt_d() const;
 
   private:
     std::vector<JMT> jmtPair;
